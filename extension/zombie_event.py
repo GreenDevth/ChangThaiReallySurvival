@@ -121,6 +121,10 @@ class ZombieEvent(commands.Cog):
                     await cmd_channel.send(f'.set {x}"505213.656 594171.688 8094.190"')
                     await asyncio.sleep(1)
                 return
+            if end_time <= game_time:
+                print(end_time <= game_time)
+                print(f'start event at {open_time} to {end_time} but game time at {game_time} , event time close.')
+                await interaction.respond(content=f'เวลาในเกมส์ตอนนี้ {game_time} เป็นเวลากลางวัน และ Event ยังไม่เปิด')
 
         if event_btn == 'spawn_item':
             if interaction.author.id == 499914273049542677:
