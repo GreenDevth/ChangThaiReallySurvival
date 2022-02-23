@@ -25,14 +25,12 @@ class ServerBankCommand(commands.Cog):
                 "**🏦 YOUR BANK INFORMATION**\n"
                 f"Discord Name : {player[1]}\n"
                 f"Bank ID : {player[4]}\n"
-                f"Total coins : {coins}\n"
-                "================================",
+                f"Total coins : {coins}\n",
                 mention_author=False
             )
             return
         else:
             await ctx.reply('Only type commands in <#937364944498856026> channel', mention_author=False)
-
 
     @commands.command(name="status")
     async def status_command(self, ctx):
@@ -45,17 +43,16 @@ class ServerBankCommand(commands.Cog):
         if (
                 ctx.channel.id == 937364944498856026
                 or ctx.author.guild_permissions.administrator
-        ):  
+        ):
             await ctx.reply(
                 "================================\n"
-                "📖 **YOUR STATUS INFORMATION**\n"
+                "🛡 **YOUR STATUS INFORMATION**\n"
                 f"Discord Name : {player[1]}\n"
                 f"Steam ID : {player[3]}\n"
                 f"Bank ID : {player[4]}\n"
                 f"Total coins : {coins}\n"
                 f"Level : {player[6]}\n"
-                f"Exp : {player[7]}\n"
-                "================================",
+                f"Exp : {player[7]}\n",
                 mention_author=False,
             )
             return
@@ -103,7 +100,11 @@ class ServerBankCommand(commands.Cog):
             if transfer_coin <= int(player[5]):
                 minus = int(player[5]) - int(transfer_coin)
                 plus = int(receipt_coin) + int(amount)
-                await ctx.reply('You transfer ${:,d} to **{}** successfull. \nYour current balance is ${:,d}'.format(int(amount), receipt[1], int(minus)), mention_author=False)
+                await ctx.reply(
+                    'You transfer ${:,d} to **{}** successfull. \nYour current balance is ${:,d}'.format(int(amount),
+                                                                                                         receipt[1],
+                                                                                                         int(minus)),
+                    mention_author=False)
                 print(minus)
                 return
             else:

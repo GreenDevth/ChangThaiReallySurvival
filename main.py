@@ -4,7 +4,7 @@ from discord_components import DiscordComponents
 from db.Auth import get_token
 from config import cogs
 
-token = get_token(10)
+token = get_token(1)
 
 intents = discord.Intents.default()
 intents.members = True
