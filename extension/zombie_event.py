@@ -7,7 +7,7 @@ import requests
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from db.Auth import get_token
-from db.players_db import players, update_coins
+from db.players_db import players, coins_update
 from events.event_award import *
 
 token = get_token(2)
@@ -95,7 +95,7 @@ class ZombieEvent(commands.Cog):
                     print(f'start event at {open_time} to {end_time} but game time at {game_time} , event time open.')
                     await interaction.respond(content='ระบบกำลังนำท่านมายังพื้นที่ล่าสมบัติ และหักค่าบริการ 500 เหรียญ')
                     await cmd_channel.send(f'.set #teleport 505213.656 594171.688 8094.190 {player[3]}')
-                    update_coins(player[2], minus)
+                    coins_update(player[2], minus)
 
                 if player_coin < 500:
                     await interaction.respond(content='ยอดเงินของคุณไม่เพียงพอสำหรับชำระค่าเข้าพื้นที่ล่าสมบัติ')
