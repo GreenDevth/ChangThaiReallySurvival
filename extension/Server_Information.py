@@ -75,6 +75,15 @@ class ServerInformation(commands.Cog):
         await ctx.send(
             file=discord.File('./img/info/server_register.png')
         )
+        await ctx.send(
+            'สำหรับผู้เล่นที่ต้องการเข้าร่วม Discord community เพื่อ \n'
+            'ปรับสิทธิ์ในการใช้งาน Discord และเข้าถึงห้องต่าง ๆ โดย \n'
+            'ให้ผู้เล่นกดที่ปุ่มด้านล่างและดำเนินการตามระบบต่อไป.',
+            components=[
+                Button(style=ButtonStyle.gray, emoji='📝', label='ลงทะเบียนผู้เล่น', custom_id='new_player')
+            ]
+        )
+        await ctx.message.delete()
 
 def setup(bot):
     bot.add_cog(ServerInformation(bot))

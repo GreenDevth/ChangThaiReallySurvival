@@ -5,6 +5,8 @@ import discord
 from discord.ext.commands import Cog
 from discord.ext import commands
 
+from db.players_db import players
+
 
 class AdministratorCommand(Cog):
     def __init__(self, bot):
@@ -71,5 +73,20 @@ class AdministratorCommand(Cog):
         )
 
 
+    
+    @commands.command(name='check_players')
+    async def check_players_command(self, ctx, arg):
+        player = players(arg)
+        await ctx.reply('{}'.format(player))
+
+
+
+    @commands.command(name='get_coins')
+    async def get_coins_command(self, ctx):
+        member = ctx.author
+        player = players(member.id)
+        await ctx.send('{}'.format(player))
+
+        
 def setup(bot):
     bot.add_cog(AdministratorCommand(bot))
