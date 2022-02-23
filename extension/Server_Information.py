@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
+from db.players_db import remove_players, players
 
 
 class ServerInformation(commands.Cog):
@@ -44,7 +45,6 @@ class ServerInformation(commands.Cog):
 
         await ctx.message.delete()
 
-
     @commands.Cog.listener()
     async def on_member_join(self, member):
         guild = self.bot.get_guild(866926077246832680)
@@ -66,7 +66,10 @@ class ServerInformation(commands.Cog):
         leave = guild.get_channel(937573869361979422)
         await leave.send(f"{member.mention} : {member.name} ได้ออกจากเซิร์ฟของเราแล้ว")
 
-
+    @commands.command(name='remove')
+    async def remove_command(self, ctx, discord_id):
+        check = players(discord_id)
+        await ctx.reply(f'{check}', mention_author=False)
 
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
@@ -82,6 +85,7 @@ class ServerInformation(commands.Cog):
             ]
         )
         await ctx.message.delete()
+
 
 def setup(bot):
     bot.add_cog(ServerInformation(bot))

@@ -81,3 +81,17 @@ def coins_update(discord_id, amount):
         if conn.is_connected():
             conn.close()
 
+
+def remove_players(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('DELETE FROM scum_players WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
