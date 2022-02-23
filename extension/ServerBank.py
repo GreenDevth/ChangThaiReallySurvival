@@ -1,6 +1,7 @@
+import discord
 from discord.ext import commands
 from db.players_db import players
-from db.bank_db import update_coins, get_discord_id
+from db.bank_db import get_discord_id
 
 
 class ServerBankCommand(commands.Cog):
@@ -11,6 +12,7 @@ class ServerBankCommand(commands.Cog):
     async def bank_command(self, ctx):
         member = ctx.author
         player = players(member.id)
+        coins = "${:,d}".format(player[5])
         if player is None:
             await ctx.reply("⚠ Your information not found.", mention_author=False)
             return
@@ -22,34 +24,44 @@ class ServerBankCommand(commands.Cog):
                 "================================\n"
                 "**🏦 YOUR BANK INFORMATION**\n"
                 f"Discord Name : {player[1]}\n"
-                f"Bank ID : {player[9]}\n"
-                f"Total coins : {player[10]}\n"
+                f"Bank ID : {player[4]}\n"
+                f"Total coins : {coins}\n"
                 "================================",
-                mention_author=False,
+                mention_author=False
             )
             return
+        else:
+            await ctx.reply('Only type commands in <#937364944498856026> channel', mention_author=False)
+
 
     @commands.command(name="status")
     async def status_command(self, ctx):
         member = ctx.author
         player = players(member.id)
+        coins = "${:,d}".format(player[5])
         if player is None:
             await ctx.reply("⚠ Your information not found.", mention_author=False)
             return
         if (
                 ctx.channel.id == 937364944498856026
                 or ctx.author.guild_permissions.administrator
-        ):
+        ):  
             await ctx.reply(
                 "================================\n"
                 "📖 **YOUR STATUS INFORMATION**\n"
                 f"Discord Name : {player[1]}\n"
                 f"Steam ID : {player[3]}\n"
-                f"Bank ID : {player[9]}\n"
-                f"Total coins : {player[10]}\n"
-                f"Level : {player[4]}\n"
-                f"Exp : {player[5]}\n"
+                f"Bank ID : {player[4]}\n"
+                f"Total coins : {coins}\n"
+                f"Level : {player[6]}\n"
+                f"Exp : {player[7]}\n"
                 "================================",
+                mention_author=False,
+            )
+            return
+        else:
+            await ctx.reply(
+                "Only used command in <#937364944498856026> channel",
                 mention_author=False,
             )
             return
@@ -66,8 +78,15 @@ class ServerBankCommand(commands.Cog):
                 or ctx.author.guild_permissions.administrator
         ):
             await ctx.reply(
-                "Your Coins is : {}".format(player[10]), mention_author=False
+                "Your Coins is : ${:,d}".format(player[5]), mention_author=False
             )
+            return
+        else:
+            await ctx.reply(
+                "Only used command in <#937364944498856026> channel",
+                mention_author=False,
+            )
+            return
 
     @commands.command(name='transfer')
     async def transfer_command(self, ctx, amount, guild_id):
@@ -82,14 +101,10 @@ class ServerBankCommand(commands.Cog):
                 or ctx.author.guild_permissions.administrator
         ):
             if transfer_coin <= int(player[5]):
-                minus = int(player[5]) - transfer_coin
+                minus = int(player[5]) - int(transfer_coin)
                 plus = int(receipt_coin) + int(amount)
-                update_coins(minus, member.id)
-                update_coins(plus, receipt_id)
-                await ctx.reply(
-                    f'{member.name} transfer {amount} to {guild_id} '
-                    f'successfully (your balance is {minus} : {plus}).',
-                    mention_author=False)
+                await ctx.reply('You transfer ${:,d} to **{}** successfull. \nYour current balance is ${:,d}'.format(int(amount), receipt[1], int(minus)), mention_author=False)
+                print(minus)
                 return
             else:
                 await ctx.reply(f'{member.name} : ⚠ Your coin not '
@@ -98,7 +113,7 @@ class ServerBankCommand(commands.Cog):
                 return
         else:
             await ctx.reply(
-                "Only used command in <#937364944498856026>",
+                "Only used command in <#937364944498856026> channel",
                 mention_author=False,
             )
             return

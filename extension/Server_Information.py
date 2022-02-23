@@ -17,10 +17,13 @@ class ServerInformation(commands.Cog):
             'และเพื่อให้เข้าถึงความเป็นเกมส์เอาชีวิตรอดที่แท้จริง เราจึง \n'
             'ได้ปรับแต่งเซิร์ฟที่เน้นระบบ Ai ของเกมส์ทำงานเป็นหลัก \n'
             'เพื่อให้ผู้เล่นได้เข้าถึงความเป็นเกมส์เอาชีวิตรอด และสนุก \n'
-            'ไปกับเกมส์ SCUM ที่แตกต่างไปจากเซิร์ฟทั่วไป .',
-            file=discord.File('./img/info/server_setting.png')
+            'ไปกับเกมส์ SCUM ที่แตกต่างไปจากเซิร์ฟทั่วไป .'
         )
 
+
+    @commands.command(name='server_setting')
+    async def server_setting_command(self, ctx):
+        await ctx.send(file=discord.File('./img/info/server_setting.png'))
         await ctx.send(
             '- เซิร์ฟสิงคโปร์ ปิงเริ่มต้นที่ 39 อัตราดรอป 1 เท่า\n '
             '- ปิดการแสดงแผนที่ กับดักและจำกัดตี้เพียง 1 คน \n'
@@ -31,8 +34,10 @@ class ServerInformation(commands.Cog):
             '- การเลือกเกิด Sector: ปิด , Random: 100FP, Shelter: 100FP \n '
             '- ซอมบี้ดาเมจ 1 เท่า 50 ตัว ต่อ คน ต่อ พื้นที่ \n '
             '- 1 วันของเกมส์เท่ากับ 4 ชั่วโมง 8 นาที ของเวลาจริง',
-            file=discord.File('./img/info/server_warning.png')
         )
+    @commands.command(name='server_warn')
+    async def server_warn_command(self, ctx):
+        await ctx.send(file=discord.File('./img/info/server_warning.png'))
         await ctx.send(
             '- ห้ามผู้เล่นใช้ประโยชน์จากบัคในการสร้างสิ่งปลูกสร้าง\n'
             '- เรดบ้านได้ ตลอด 24 ชั่วโมง\n'
