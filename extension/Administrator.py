@@ -6,7 +6,7 @@ from discord.ext.commands import Cog
 from discord.ext import commands
 
 from db.players_db import players
-
+from database.players import players_register, players_exists, transfer_player
 
 class AdministratorCommand(Cog):
     def __init__(self, bot):
@@ -34,10 +34,10 @@ class AdministratorCommand(Cog):
                 await asyncio.sleep(1)
                 await message.delete()
 
-    @Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.CommandNotFound):
-            await ctx.reply('⚠ Your command not available or not found.', mention_author=False)
+    # @Cog.listener()
+    # async def on_command_error(self, ctx, error):
+    #     if isinstance(error, commands.CommandNotFound):
+    #         await ctx.reply('⚠ Your command not available or not found.', mention_author=False)
 
     @commands.command(name='unload')
     async def unload_command(self, ctx, ext):
@@ -81,11 +81,64 @@ class AdministratorCommand(Cog):
 
 
 
+    @commands.Cog.listener()
+    async def on_button_click(self, interaction):
+        member = interaction.author
+        btn = interaction.component.custom_id
+
+        if btn == 'free_money':
+            check = players_exists(member.id)
+            if check == 1:
+                await interaction.respond(content="คุณได้รับเหรียญเนื่องในโอกาสพิเศษไปแล้ว")
+            else:
+                player = players(member.id)
+                member_name = str(player[1])
+                member_discord = str(player[2])
+                member_steam = str(player[3])
+                member_bank = int(player[4])
+                member_coins = str(player[5])
+                member_level = int(player[6])
+                member_exp = str(player[8])
+                await interaction.respond(content=f'{check}')
+                transfer_player(member_name, member_discord, member_steam, member_level, member_exp, member_bank, member_coins)
+                print('New players has been transfer to SQLite...')
+
+ # member = ctx.author
+        # player = players(member.id)
+        # name = player[1]
+        # discord_id = player[2]
+        # steam_id = player[3]
+        # bank_id = player[4]
+        # coins = player[5]
+        # level = player[6]
+        # exp = player[8]
+        # if member.id == discord_id:
+        #     await ctx.reply('ขออภัยคุณได้รับ รางวัลพิเศษไปแล้ว')
+        # else:
+        #     await ctx.reply('ขออภัยไม่พบข้อมูลของคุณ')
+            # await ctx.send(
+            #     f'Name: {player[1]}\n'
+            #     f'Discord_id: {player[2]}\n'
+            #     f'Steam_id: {player[3]}\n'
+            #     f'Bank_id: {player[4]}\n'
+            #     f'Coins: {player[5]}\n'
+            #     f'Level: {player[6]}\n'
+            #     f'Exp: {player[8]}\n'
+            # )
+
+
+
+
+
+
     @commands.command(name='get_coins')
     async def get_coins_command(self, ctx):
-        member = ctx.author
-        player = players(member.id)
-        await ctx.send('{}'.format(player))
+        await ctx.send(
+            'Get Coins',
+            components=[Button(style=ButtonStyle.green, label='Free coins', emoji='💵', custom_id='free_money')]
+        )
+       
+
 
         
 def setup(bot):
