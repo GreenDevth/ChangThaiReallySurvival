@@ -18,7 +18,7 @@ class ServerInformation(commands.Cog):
             'ของเกมส์ เน้นให้ผู้เล่นต่อสู้กับระบบ Ai ของเกมส์ ต่อสู้แย่งชิง\n'
             'ฐานที่มั่น ทรัพยากร และสิ่งอำนวยความสะดวกต่าง ๆ'
         )
-        await ctx.send(file=discord.File('./img/info/setting.png'))
+        await ctx.send(file=discord.File('./img/info/settings.png'))
         await ctx.send(
             '- เซิร์ฟสิงคโปร์ ปิงเริ่มต้นที่ 39 อัตราดรอป 1 เท่า\n'
             '- ปิดการแสดงแผนที่ กับดักและจำกัดตี้เพียง 1 คน \n'
@@ -30,7 +30,7 @@ class ServerInformation(commands.Cog):
             '- ซอมบี้ดาเมจ 1 เท่า 50 ตัว ต่อ คน ต่อ พื้นที่ \n'
             '- 1 วันของเกมส์เท่ากับ 4 ชั่วโมง 8 นาที ของเวลาจริง',
         )
-        await ctx.send(file=discord.File('./img/info/warning.png'))
+        await ctx.send(file=discord.File('./img/info/cautions.png'))
         await ctx.send(
             '- ห้ามผู้เล่นใช้ประโยชน์จากบัคในการสร้างสิ่งปลูกสร้าง\n'
             '- เรดบ้านได้ ตลอด 24 ชั่วโมง\n'
