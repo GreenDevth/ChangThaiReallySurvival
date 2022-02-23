@@ -68,5 +68,13 @@ class ServerInformation(commands.Cog):
         leave = guild.get_channel(937573869361979422)
         await leave.send(f"{member.mention} : {member.name} ได้ออกจากเซิร์ฟของเราแล้ว")
 
+
+
+    @commands.command(name='reg_id')
+    async def reg_id_command(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/info/server_register.png')
+        )
+
 def setup(bot):
     bot.add_cog(ServerInformation(bot))
