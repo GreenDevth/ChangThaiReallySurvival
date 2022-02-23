@@ -3,7 +3,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
-from database.players import players, players_exists, players_register
+
 
 
 class Registration(commands.Cog):

@@ -72,14 +72,10 @@ class AdministratorCommand(Cog):
             ]
         )
 
-
-    
     @commands.command(name='check_players')
     async def check_players_command(self, ctx, arg):
         player = players(arg)
         await ctx.reply('{}'.format(player))
-
-
 
     @commands.command(name='get_coins')
     async def get_coins_command(self, ctx):
@@ -87,6 +83,6 @@ class AdministratorCommand(Cog):
         player = players(member.id)
         await ctx.send('{}'.format(player))
 
-        
+
 def setup(bot):
     bot.add_cog(AdministratorCommand(bot))

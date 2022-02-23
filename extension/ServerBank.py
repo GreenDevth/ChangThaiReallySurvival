@@ -1,7 +1,6 @@
 from discord.ext import commands
-
-from database.Bank_db import coins, get_coins, update_coins
-from database.players import players
+from db.players_db import players
+from db.bank_db import update_coins, get_discord_id
 
 
 class ServerBankCommand(commands.Cog):
@@ -71,25 +70,24 @@ class ServerBankCommand(commands.Cog):
             )
 
     @commands.command(name='transfer')
-    async def transfer_command(self, ctx, amount, bank_id):
+    async def transfer_command(self, ctx, amount, guild_id):
         member = ctx.author
-        owner = get_coins(member.id)
-
-        receipt = coins(bank_id)
-        receipt_id = receipt[1]
-        receipt_coin = receipt[0]
+        player = players(member.id)
         transfer_coin = int(amount)
+        receipt_id = get_discord_id(guild_id)
+        receipt = players(receipt_id)
+        receipt_coin = int(receipt[5])
         if (
                 ctx.channel.id == 937364944498856026
                 or ctx.author.guild_permissions.administrator
         ):
-            if transfer_coin <= int(owner):
-                minus = int(owner) - transfer_coin
+            if transfer_coin <= int(player[5]):
+                minus = int(player[5]) - transfer_coin
                 plus = int(receipt_coin) + int(amount)
                 update_coins(minus, member.id)
                 update_coins(plus, receipt_id)
                 await ctx.reply(
-                    f'{member.name} transfer {amount} to {bank_id} '
+                    f'{member.name} transfer {amount} to {guild_id} '
                     f'successfully (your balance is {minus} : {plus}).',
                     mention_author=False)
                 return
