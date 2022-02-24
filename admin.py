@@ -82,8 +82,6 @@ class Administrator(commands.Cog):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('*This command can only be used by administrators.*', mention_author=False)
 
-
-
     @commands.command(name='load')
     @commands.has_permissions(manage_roles=True)
     async def load_command(self, ctx, ext):
@@ -100,12 +98,8 @@ class Administrator(commands.Cog):
             message = str(error)
         else:
             message = "Something went wrong whlie running the commands"
-        
+
         await ctx.reply(message)
-
-
-
-
 
     @commands.command(name='unload')
     @commands.has_permissions(manage_roles=True)
@@ -145,6 +139,23 @@ class Administrator(commands.Cog):
             message = "Something went wrong whlie running the commands"
 
         await ctx.reply(message)
+
+    @commands.command(name='check')
+    async def check_command(self, ctx, arg: int):
+        check = players_exists(arg)
+        if check == 1:
+            player = players(arg)
+            message = '```css\n===============================================\n'\
+                      f'Discord Name: {player[1]}\n' \
+                      f'Discord ID: {player[2]}\n' \
+                      f'Steam ID: {player[3]}\n' \
+                      f'Status : {player[9]}\n' \
+                      f'===============================================\n' \
+                      f'```'
+        else:
+            await ctx.reply(f'This **{arg}** could not be found in the database.', mention_author=False)
+
+
 
 
 def setup(bot):

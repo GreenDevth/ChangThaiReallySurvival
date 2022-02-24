@@ -4,6 +4,37 @@ from database.db_config import read_db_config
 db = read_db_config()
 
 
+def new_players(name, discord, guild):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        sql = 'INSERT INTO scum_players(DISCORD_NAME, DISCORD_ID, GUILD_ID) VALUES (%s,%s,%s)'
+        cur.execute(sql, (name, discord, guild,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
+def remove_player(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('DELETE FROM scum_players WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
 def players_exists(discord_id):
     try:
         conn = MySQLConnection(**db)
