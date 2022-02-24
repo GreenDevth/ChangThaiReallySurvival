@@ -6,7 +6,8 @@ from discord_components import Button, ButtonStyle
 
 from config.Auth import get_token
 from players.players_db import players_exists, players
-
+from store.store_db import get_data, add_to_cart, in_order, check_queue
+from datetime import datetime
 token = get_token(2)
 url = get_token(3)
 
@@ -69,7 +70,6 @@ class SelfServeCommand(commands.Cog):
             else:
                 await interaction.respond(content='⚠ Error, your account ID not found!')
 
-
         elif store_btn == "status":
             check = players_exists(member.id)
             if check == 1:
@@ -126,7 +126,7 @@ class SelfServeCommand(commands.Cog):
         scum_version = json_obj['data']['attributes']['details']['version']
         await ctx.reply(
             content=
-            "```css\n============================================="
+            "```============================================="
             f"\nServer: {scum_server} "
             f"\nIP: {scum_ip}:{scum_port} "
             f"\nStatus: {scum_status} "
@@ -168,14 +168,51 @@ class SelfServeCommand(commands.Cog):
 
     @commands.command(name='daily')
     async def daily_command(self, ctx):
-        check = players_exists(ctx.author.id)
+        now = datetime.now()
+        time = now.strftime("%H:%M:%S")
+        shop_open = "18:00:00"
+        shop_close = "24:00:00"
+        print(shop_open <= time)
+        print(time <= shop_close)
+        if shop_open <= time:
+            check = players_exists(ctx.author.id)
+            if check == 1:
+                player = players(ctx.author.id)
+                package_name = "dailypack"
+                await ctx.reply(
+                    'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
+                )
+            else:
+                await ctx.reply('⚠ Error, your account ID not found!')
+        elif time <= shop_close:
+            await ctx.reply('Drone is still unavailable : the shop has been closed')
+
+    @commands.command(name='status')
+    async def status_command(self, ctx):
+        member = ctx.author
+        check = players_exists(member.id)
         if check == 1:
-            player = players(ctx.author.id)
+            player = players(member.id)
+            coins = "${:,d}".format(player[5])
+            created_at = member.created_at.strftime("%b %d, %Y")
+            joined_at = member.joined_at.strftime("%b %d, %Y")
             await ctx.reply(
-                'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
+                content="```YOU INFORMATION\n"
+                        "=========================================================\n"
+                        f"Discord Name : '{player[1]}'\n"
+                        f"Discord ID : {player[2]}\n"
+                        f"Steam ID : {player[3]}\n"
+                        f"Bank ID : {player[4]}\n"
+                        f"Bank Balance : {coins}\n"
+                        f"Level : {player[6]}\n"
+                        f"Exp : {player[7]}\n"
+                        f"Join server at : '{joined_at}'\n"
+                        "========================================================="
+                        "\n```"
             )
         else:
-            await ctx.reply('⚠ Error, your account ID not found!')
+            await ctx.reply(content='⚠ Error, your account ID not found!')
+
 
 def setup(bot):
     bot.add_cog(SelfServeCommand(bot))
