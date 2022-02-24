@@ -85,3 +85,31 @@ def players_discord(discord_id):
             return res[0]
     except Error as e:
         print(e)
+
+
+def update_daily_pack(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        sql = 'UPDATE scum_players SET DAILY_PACK = 0 WHERE DISCORD_ID = %s'
+        cur.execute(sql, (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+
+
+def reset_daily_pack():
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET DAILY_PACK = 1 WHERE PLAYERS_ID > 0')
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()

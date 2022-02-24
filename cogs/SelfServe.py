@@ -1,13 +1,16 @@
 import json
+import random
+from datetime import datetime
+
 import discord
 import requests
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 
 from config.Auth import get_token
-from players.players_db import players_exists, players
-from store.store_db import get_data, add_to_cart, in_order, check_queue
-from datetime import datetime
+from players.players_db import players_exists, players, update_daily_pack
+from store.store_db import add_to_cart, in_order, check_queue
+
 token = get_token(2)
 url = get_token(3)
 
@@ -125,7 +128,6 @@ class SelfServeCommand(commands.Cog):
         scum_time = json_obj['data']['attributes']['details']['time']
         scum_version = json_obj['data']['attributes']['details']['version']
         await ctx.reply(
-            content=
             "```============================================="
             f"\nServer: {scum_server} "
             f"\nIP: {scum_ip}:{scum_port} "
@@ -168,23 +170,34 @@ class SelfServeCommand(commands.Cog):
 
     @commands.command(name='daily')
     async def daily_command(self, ctx):
+        member = ctx.author
+        cmd_channel = self.bot.get_channel(925559937323659274)
+        run_cmd_channel = self.bot.get_channel(927796274676260944)
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
         shop_open = "18:00:00"
-        shop_close = "24:00:00"
-        print(shop_open <= time)
-        print(time <= shop_close)
         if shop_open <= time:
             check = players_exists(ctx.author.id)
             if check == 1:
                 player = players(ctx.author.id)
                 package_name = "dailypack"
+                code = random.randint(9, 999999)
+                order_number = f'order{code}'
                 await ctx.reply(
                     'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
                 )
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                queue = check_queue()
+                order = in_order(player[2])
+                update_daily_pack(player[2])
+                await cmd_channel.send(
+                    f'{member.mention}'
+                    f'```Order number {order_number} delivery in progress from {order}/{queue}'
+                )
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
-        elif time <= shop_close:
+        elif time <= shop_open:
             await ctx.reply('Drone is still unavailable : the shop has been closed')
 
     @commands.command(name='status')
@@ -208,7 +221,8 @@ class SelfServeCommand(commands.Cog):
                         f"Exp : {player[7]}\n"
                         f"Join server at : '{joined_at}'\n"
                         "========================================================="
-                        "\n```"
+                        "\n```",
+                mention_author=False
             )
         else:
             await ctx.reply(content='⚠ Error, your account ID not found!')

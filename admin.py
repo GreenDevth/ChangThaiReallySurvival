@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-from players.players_db import players_exists, players
+from players.players_db import players_exists, players, reset_daily_pack
 from bank.bank_db import update_coins
 
 
@@ -155,7 +155,17 @@ class Administrator(commands.Cog):
         else:
             await ctx.reply(f'This **{arg}** could not be found in the database.', mention_author=False)
 
+    @commands.command(name="reset_daily")
+    @commands.has_permissions(manage_roles=True)
+    async def reset_daily_command(self, ctx):
+        reset_daily_pack()
+        print('Reset Daily Pack status successfully.')
+        await ctx.reply('🍔 Reset all **DailyPack** status successfully.')
 
+    @reset_daily_command.error
+    async def reset_daily_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('⚠ This commands only used in Admin role.')
 
 
 def setup(bot):
