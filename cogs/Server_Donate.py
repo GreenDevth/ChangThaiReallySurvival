@@ -30,7 +30,7 @@ class ServerDonation(commands.Cog):
             )
         if donate_btn == 'donate_img':
             donate = self.bot.get_channel(946805199010426881)
-            await interaction.respond(content='กรุณาอัพโหลดภาพถ่ายสินค้าภารกิจของคุณ')
+            await interaction.respond(content='กรุณาอัพโหลดสลิปของคุณ')
 
             def check(message):
                 attachments = message.attachments
@@ -41,20 +41,21 @@ class ServerDonation(commands.Cog):
 
             msg = await self.bot.wait_for('message', check=check)
             if msg is not None:
-                await interaction.channel.send('ขอบคุณสำหรับการสนับสนุนเซิร์ฟในครั้งนี้ครับ')
+                await interaction.channel.send('ขอบคุณสำหรับการสนับสนุนเซิร์ฟในครั้งนี้', delete_after=5)
             image = msg.attachments[0]
             embed = discord.Embed(
                 title=f'ผู้สนับสนุนเซิร์ฟ {member.name}',
                 description='ขอขอบคุณเป็นอย่างยิ่งสำหรับการสนับสนุนค่าใช้จ่ายเซิร์ฟในครั้งนี้ ',
-                timestamp=create_at,
+                timestamp=datetime.utcnow(),
                 color=discord.Colour.green()
             )
             embed.set_author(name=f'{member.name}', icon_url=member.avatar_url)
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_image(url=image)
             embed.add_field(name='ผู้สนับสนุนเซิร์ฟ', value=member.mention, inline=False)
-            msg = await donate.send(embed=embed)
-            await msg.add_reaction("😍")
+            send = await donate.send(embed=embed)
+            await send.add_reaction("😍")
+            await msg.delete()
 
     @commands.command(name='donate')
     async def donate_command(self, ctx):
