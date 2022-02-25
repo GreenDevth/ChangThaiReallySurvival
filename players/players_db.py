@@ -115,6 +115,17 @@ def reset_daily_pack():
             conn.close()
 
 
+def steam_check(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT STEAM_ID FROM scum_players WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        return row
+    except Error as e:
+        print(e)
+
+
 def update_steam_id(discord_id, steam_id):
     conn = None
     try:
