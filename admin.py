@@ -186,7 +186,7 @@ class Administrator(commands.Cog):
     @commands.has_permissions(manage_roles=True)
     async def clear_command(self, ctx, number: int):
         await ctx.reply(f'**{number}** message has been deleted.', mention_author=False)
-        await ctx.channel.purge(limit=number)
+        await ctx.channel.purge(limit=number + 1)
 
     @clear_command.error
     async def clear_command_error(self, ctx: commands.Context, error: commands.CommandError):
