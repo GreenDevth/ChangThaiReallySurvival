@@ -12,7 +12,7 @@ class ButtonEvent(commands.Cog):
     @commands.Cog.listener()
     async def on_button_click(self, interaction):
         member = interaction.author
-        server_btn = interaction.component.costum_id
+        server_btn = interaction.component.custom_id
 
         if server_btn == 'new_players':
             check = players_exists(member.id)
