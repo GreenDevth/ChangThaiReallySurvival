@@ -155,6 +155,7 @@ class Administrator(commands.Cog):
                       f'Status : {player[9]}\n' \
                       f'===============================================\n' \
                       f'```'
+            await ctx.reply(message, mention_author=False)
         else:
             await ctx.reply(f'This **{arg}** could not be found in the database.', mention_author=False)
 
