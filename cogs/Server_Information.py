@@ -2,7 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
-from players.players_db import update_steam_id, players
+from players.players_db import update_steam_id, steam_check
 
 
 class ServerInformation(commands.Cog):
@@ -50,8 +50,10 @@ class ServerInformation(commands.Cog):
         member = interaction.author
         btn = interaction.component.custom_id
         if btn == 'new_player':
-            player = players(member.id)
-            if player[3] == 0:
+            steam_id = steam_check(member.id)
+            if steam_id is not None:
+                await interaction.respond(content=f'{steam_id}')
+            else:
                 await interaction.send(f'{member.mention} : 📝 โปรดระบุ SteamID ของคุณเพื่อดำเนินการลงทะเบียน')
                 while True:
                     try:
@@ -63,8 +65,11 @@ class ServerInformation(commands.Cog):
                         if msg.content.isdigit():
                             a_string = str(msg.content)
                             length = len(a_string)
-
-                            if length == 17:
+                            if length != 17:
+                                print(length != 17)
+                                await interaction.channel.send(f'{member.mention} : 📢 รูปแบบสตรีมไอดีของคุณไม่ถูกต้องกรุณาลองใหม่อีกครั้ง', delete_after=3)
+                                await msg.delete()
+                            else:
                                 update_steam_id(member.id, msg.content)
                                 await discord.DMChannel.send(
                                     member,
@@ -76,19 +81,50 @@ class ServerInformation(commands.Cog):
                                 await member.remove_roles(role)
                                 await msg.delete()
                                 return
-
                         else:
-                            await interaction.channel.send(
-                                f'{member.mention} : 📢 รูปแบบสตรีมไอดีของคุณไม่ถูกต้องกรุณาลองใหม่อีกครั้ง',
-                                delete_after=5)
+                            await interaction.channel.send('oh no.', delete_after=3)
                             await msg.delete()
-
                     except asyncio.TimeoutError:
-                        await interaction.send(
-                            f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป กรุณาลงทะเบียนใหม่อีกครั้ง'
-                        )
-            else:
-                await interaction.respond(content='⚔ คุณลงทะเบียนไว้ก่อนหน้านี้แล้ว, You have registered')
+                        await interaction.send( f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป กรุณาลงทะเบียนใหม่อีกครั้ง')
+            
+            # if steam_id is None:
+            #     await interaction.send(f'{member.mention} : 📝 โปรดระบุ SteamID ของคุณเพื่อดำเนินการลงทะเบียน')
+            #     while True:
+            #         try:
+            #             msg = await self.bot.wait_for(
+            #                 'message',
+            #                 check=lambda r: r.author == interaction.author and r.channel == interaction.channel,
+            #                 timeout=300
+            #             )
+            #             if msg.content.isdigit():
+            #                 a_string = str(msg.content)
+            #                 length = len(a_string)
+
+            #                 if length == 17:
+            #                     update_steam_id(member.id, msg.content)
+            #                     await discord.DMChannel.send(
+            #                         member,
+            #                         "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival "
+            #                     )
+            #                     verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
+            #                     role = discord.utils.get(interaction.guild.roles, name='joiner')
+            #                     await member.add_roles(verify)
+            #                     await member.remove_roles(role)
+            #                     await msg.delete()
+            #                     return
+
+            #             else:
+            #                 await interaction.channel.send(
+            #                     f'{member.mention} : 📢 รูปแบบสตรีมไอดีของคุณไม่ถูกต้องกรุณาลองใหม่อีกครั้ง',
+            #                     delete_after=5)
+            #                 await msg.delete()
+
+            #         except asyncio.TimeoutError:
+            #             await interaction.send(
+            #                 f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป กรุณาลงทะเบียนใหม่อีกครั้ง'
+            #             )
+            # else:
+            #     await interaction.respond(content='⚔ คุณลงทะเบียนไว้ก่อนหน้านี้แล้ว, You have registered')
 
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
