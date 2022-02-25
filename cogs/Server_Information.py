@@ -43,6 +43,13 @@ class ServerInformation(commands.Cog):
         )
         await ctx.message.delete()
 
+    @commands.Cog.listener()
+    async def on_button_click(self, interaction):
+        member = interaction.author
+        btn = interaction.component.custom_id
+        if btn == 'new_player':
+            print(btn)
+
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
         await ctx.send(
