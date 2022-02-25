@@ -186,8 +186,17 @@ class SelfServeCommand(commands.Cog):
 
     @commands.command(name='dmbank')
     async def dmbank_command(self, ctx):
+        member = ctx.author
         check = players_exists(ctx.author.id)
         if check == 1:
+            player = players(member.id)
+            coins = "${:,d}".format(player[5])
+            await discord.DMChannel.send(
+                member,
+                f'Account Name : {player[1]}\n'
+                f'Bank ID : {player[4]}\n'
+                f'Bank Balance : {coins}'
+            )
             await ctx.reply('Please ured button in <#942256560120422512> for get private bank balance.',
                             mention_author=False)
         else:
@@ -252,6 +261,10 @@ class SelfServeCommand(commands.Cog):
         else:
             await ctx.reply(content='⚠ Error, your account ID not found!')
 
+    @commands.command(name='reg_id')
+    async def reg_id_command(self, ctx, arg):
+        member = ctx.author
+        await ctx.reply('Register Successfully.')
 
 def setup(bot):
     bot.add_cog(SelfServeCommand(bot))
