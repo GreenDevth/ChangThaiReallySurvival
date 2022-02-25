@@ -144,7 +144,7 @@ class Administrator(commands.Cog):
 
     @commands.command(name='check')
     @commands.has_permissions(manage_roles=True)
-    async def check_command(self, ctx, arg: int):
+    async def check_command(self, ctx, arg):
         check = players_exists(arg)
         if check == 1:
             player = players(arg)
