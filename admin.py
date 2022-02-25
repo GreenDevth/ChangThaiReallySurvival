@@ -181,7 +181,23 @@ class Administrator(commands.Cog):
     async def reset_daily_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('⚠ This commands only used in Admin role.')
+    
+    @commands.command(name='clear')
+    @commands.has_permissions(manage_roles=True)
+    async def clear_command(self, ctx, number: int):
+        await ctx.reply(f'**{number}** message has been deleted.', mention_author=False)
+        await ctx.channel.purge(limit=number)
 
+    @clear_command.error
+    async def clear_command_error(self, ctx: commands.Context, error: commands.CommandError):
+        if isinstance(error, commands.MissingPermissions):
+            message = 'You are missing the required premission to run this command!'
+        elif isinstance(error, commands.MissingRequiredArgument):
+            message = f'Missing a required argument: {error.param}'
+        else:
+            message = "Something went wrong whlie running the commands"
+
+        await ctx.reply(message, mention_author=False)
 
 def setup(bot):
     bot.add_cog(Administrator(bot))

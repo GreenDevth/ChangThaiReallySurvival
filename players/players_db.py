@@ -121,7 +121,8 @@ def steam_check(discord_id):
         cur = conn.cursor()
         cur.execute('SELECT STEAM_ID FROM scum_players WHERE DISCORD_ID = %s', (discord_id,))
         row = cur.fetchone()
-        return row
+        res = list(row)
+        return res[0]
     except Error as e:
         print(e)
 
