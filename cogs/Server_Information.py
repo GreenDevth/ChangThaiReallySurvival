@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
+from players.players_db import update_steam_id, players
 
 
 class ServerInformation(commands.Cog):
@@ -48,7 +49,11 @@ class ServerInformation(commands.Cog):
         member = interaction.author
         btn = interaction.component.custom_id
         if btn == 'new_player':
-            print(btn)
+            player = players(member.id)
+            if player[3] == 0:
+                await interaction.respond(content='Update New Steam id')
+            else:
+                await interaction.respond(content='⚔ คุณลงทะเบียนไว้ก่อนหน้านี้แล้ว, You have registered')
 
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
