@@ -265,16 +265,6 @@ class SelfServeCommand(commands.Cog):
         else:
             await ctx.reply(content='⚠ Error, your account ID not found!')
 
-    @commands.command(name='reg_id')
-    async def reg_id_command(self, ctx, arg):
-        member = ctx.author
-        await ctx.reply('Register Successfully.')
-
-    @commands.command(name='rank')
-    async def players_rank_command(self, ctx):
-        rank = player_rank()
-        await ctx.reply(f'{rank}', mention_author=False)
-
 
 def setup(bot):
     bot.add_cog(SelfServeCommand(bot))

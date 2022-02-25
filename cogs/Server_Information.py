@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
-from db.players_db import remove_players, players
 
 
 class ServerInformation(commands.Cog):
@@ -42,34 +41,7 @@ class ServerInformation(commands.Cog):
             '- การโกงการก่อกวน แบนออกทันทีหากพบว่าผิดจริง\n '
             '- การตัดสินใจของแอดมินและทีมงานถือเป็นที่สิ้นสุด'
         )
-
         await ctx.message.delete()
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        guild = self.bot.get_guild(866926077246832680)
-        welcome = guild.get_channel(914080006429360149)
-        role = discord.utils.get(guild.roles, name="joiner")
-        await member.add_roles(role)
-
-        await welcome.send(f"{member.mention} : {member.name} ได้เข้าร่วมเซิร์ฟของเราแล้ว")
-        await discord.DMChannel.send(
-            member,
-            "**⚔ ChangThai℠ Really survival**\n\n" +
-            "\n- เซิร์ฟสิงคโปร์ ปิงเริ่มต้นที่ 30 อัตราดรอป 1.0"
-            "\n- ไอพีเซิร์ฟ : 143.244.33.48:7102 รหัสผ่าน 28702"
-        )
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        guild = self.bot.get_guild(866926077246832680)
-        leave = guild.get_channel(937573869361979422)
-        await leave.send(f"{member.mention} : {member.name} ได้ออกจากเซิร์ฟของเราแล้ว")
-
-    @commands.command(name='remove')
-    async def remove_command(self, ctx, discord_id):
-        check = players(discord_id)
-        await ctx.reply(f'{check}', mention_author=False)
 
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):

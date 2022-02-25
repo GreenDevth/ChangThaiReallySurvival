@@ -113,3 +113,18 @@ def reset_daily_pack():
     finally:
         if conn.is_connected():
             conn.close()
+
+
+def update_steam_id(discord_id, steam_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET STEAM_ID = %s WHERE DISCORD_ID = %s', (steam_id, discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
