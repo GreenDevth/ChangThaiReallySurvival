@@ -214,21 +214,25 @@ class SelfServeCommand(commands.Cog):
             check = players_exists(ctx.author.id)
             if check == 1:
                 player = players(ctx.author.id)
-                package_name = "dailypack"
-                code = random.randint(9, 999999)
-                order_number = f'order{code}'
-                await ctx.reply(
-                    'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
-                )
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_daily_pack(player[2])
-                await cmd_channel.send(
-                    f'{member.mention}'
-                    f'```Order number {order_number} delivery in progress from {order}/{queue}```'
-                )
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
+                daily_pack = player[8]
+                if daily_pack == 1:
+                    package_name = "dailypack"
+                    code = random.randint(9, 999999)
+                    order_number = f'order{code}'
+                    await ctx.reply(
+                        'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
+                    )
+                    add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                    queue = check_queue()
+                    order = in_order(player[2])
+                    update_daily_pack(player[2])
+                    await cmd_channel.send(
+                        f'{member.mention}'
+                        f'```Order number {order_number} delivery in progress from {order}/{queue}```'
+                    )
+                    await run_cmd_channel.send('!checkout {}'.format(order_number))
+                else:
+                    await ctx.reply('⚠ Error, Wait for get daily pack tomorrow.')
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         elif time <= shop_open:
