@@ -10,7 +10,7 @@ from discord_components import Button, ButtonStyle
 from config.Auth import get_token
 from players.players_db import players_exists, players, update_daily_pack
 from store.store_db import add_to_cart, in_order, check_queue
-
+from level.Rank_db import player_rank
 token = get_token(2)
 url = get_token(3)
 
@@ -265,6 +265,11 @@ class SelfServeCommand(commands.Cog):
     async def reg_id_command(self, ctx, arg):
         member = ctx.author
         await ctx.reply('Register Successfully.')
+
+    @commands.command(name='rank')
+    async def players_rank_command(self, ctx):
+        rank = player_rank()
+        await ctx.reply(f'{rank}', mention_author=False)
 
 
 def setup(bot):
