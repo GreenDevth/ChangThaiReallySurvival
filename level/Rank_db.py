@@ -9,9 +9,9 @@ def player_rank():
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         cur.execute('SELECT DISCORD_NAME, LEVEL, EXP FROM scum_players WHERE EXP > 0 ORDER BY EXP DESC LIMIT 5')
-        row = cur.fetchone()
+        row = cur.fetchall()
         while row is not None:
-            res = list(row)
-            return res[0]
+            for x in row:
+                return x
     except Error as e:
         print(e)
