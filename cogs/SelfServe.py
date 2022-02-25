@@ -226,7 +226,7 @@ class SelfServeCommand(commands.Cog):
                 update_daily_pack(player[2])
                 await cmd_channel.send(
                     f'{member.mention}'
-                    f'```Order number {order_number} delivery in progress from {order}/{queue}'
+                    f'```Order number {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
             else:

@@ -21,7 +21,7 @@ def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        sql = 'INSERT INTO scum_shopping_cart(discord_id, discord_name, steam_id, product_code, ' \
+        sql = 'INSERT INTO scum_shopping_cart(discord_id, discord_name, steam_id, order_number, ' \
               'package_name) VALUES (%s,%s,%s,%s,%s)'
         cur.execute(sql, (discord_id, discord_name, steam_id, product_code, package_name,))
         print('Insert new order name {}'.format(product_code))
@@ -59,7 +59,7 @@ def in_order(discord_id):
         dbconfig = read_db_config()
         conn = MySQLConnection(**dbconfig)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(product_code) FROM scum_shopping_cart WHERE discord_id = %s', (discord_id,))
+        cur.execute('SELECT COUNT(order_number) FROM scum_shopping_cart WHERE discord_id = %s', (discord_id,))
         row = cur.fetchone()
         while row is not None:
             order = list(row)
