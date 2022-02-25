@@ -197,7 +197,7 @@ class SelfServeCommand(commands.Cog):
                 f'Bank ID : {player[4]}\n'
                 f'Bank Balance : {coins}'
             )
-            await ctx.reply('Please ured button in <#942256560120422512> for get private bank balance.',
+            await ctx.reply('Bank statements are being delivered to your inbox.',
                             mention_author=False)
         else:
             await ctx.reply('⚠ Error, your account ID not found!')
