@@ -266,5 +266,6 @@ class SelfServeCommand(commands.Cog):
         member = ctx.author
         await ctx.reply('Register Successfully.')
 
+
 def setup(bot):
     bot.add_cog(SelfServeCommand(bot))

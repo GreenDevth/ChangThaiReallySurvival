@@ -9,6 +9,7 @@ from players.players_db import players_exists, players, reset_daily_pack
 class Administrator(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
     #
     # @commands.Cog.listener()
     # async def on_ready(self):
@@ -100,7 +101,7 @@ class Administrator(commands.Cog):
         else:
             message = "Something went wrong whlie running the commands"
 
-        await ctx.reply(message)
+        await ctx.reply(message, mention_author=False)
 
     @commands.command(name='unload')
     @commands.has_permissions(manage_roles=True)
@@ -119,7 +120,7 @@ class Administrator(commands.Cog):
         else:
             message = "Something went wrong whlie running the commands"
 
-        await ctx.reply(message)
+        await ctx.reply(message, mention_author=False)
 
     @commands.command(name='reload')
     @commands.has_permissions(manage_roles=True)
@@ -139,14 +140,15 @@ class Administrator(commands.Cog):
         else:
             message = "Something went wrong whlie running the commands"
 
-        await ctx.reply(message)
+        await ctx.reply(message, mention_author=False)
 
     @commands.command(name='check')
+    @commands.has_permissions(manage_roles=True)
     async def check_command(self, ctx, arg: int):
         check = players_exists(arg)
         if check == 1:
             player = players(arg)
-            message = '```css\n===============================================\n'\
+            message = '```css\n===============================================\n' \
                       f'Discord Name: {player[1]}\n' \
                       f'Discord ID: {player[2]}\n' \
                       f'Steam ID: {player[3]}\n' \
@@ -155,6 +157,17 @@ class Administrator(commands.Cog):
                       f'```'
         else:
             await ctx.reply(f'This **{arg}** could not be found in the database.', mention_author=False)
+
+    @check_command.error
+    async def check_command_error(self, ctx: commands.Context, error: commands.CommandError):
+        if isinstance(error, commands.MissingPermissions):
+            message = 'You are missing the required premission to run this command!'
+        elif isinstance(error, commands.MissingRequiredArgument):
+            message = f'Missing a required argument: {error.param}'
+        else:
+            message = "Something went wrong whlie running the commands"
+
+        await ctx.reply(message, mention_author=False)
 
     @commands.command(name="reset_daily")
     @commands.has_permissions(manage_roles=True)
