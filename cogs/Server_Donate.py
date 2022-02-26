@@ -37,7 +37,7 @@ class ServerDonation(commands.Cog):
                 if len(attachments) == 0:
                     return False
                 attachment = attachments[0]
-                return attachment.filename.endswith(('.jpg', '.png'))
+                return attachment.filename.endswith(('.jpg', '.png', '.jpeg'))
 
             msg = await self.bot.wait_for('message', check=check)
             if msg is not None:

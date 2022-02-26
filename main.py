@@ -11,6 +11,6 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 DiscordComponents(bot)
 
-# bot.load_extension('admin')
+bot.load_extension('admin')
 load_cogs(bot)
 bot.run(token)
