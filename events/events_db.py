@@ -17,6 +17,19 @@ def players_exists(discord_id):
         print(e)
 
 
+def count_event_player():
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT COUNT(*) FROM scum_events')
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+    except Error as e:
+        print(e)
+
+
 def new_players_event(discord_name, discord_id, steam_id):
     conn = None
     try:
