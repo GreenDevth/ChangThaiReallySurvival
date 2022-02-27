@@ -15,7 +15,7 @@ class RacingEvent(commands.Cog):
         message = None
         if event_btn == "racing_register":
             message = "Create new event players"
-        elif event_btn == "reacing_count":
+        elif event_btn == "racing_count":
             message = "Count event players"
         await interaction.respond(content=message)
 
