@@ -51,6 +51,11 @@ class SelfServeCommand(commands.Cog):
     async def on_button_click(self, interaction):
         member = interaction.author
         store_btn = interaction.component.custom_id
+        cmd_channel = self.bot.get_channel(925559937323659274)
+        run_cmd_channel = self.bot.get_channel(927796274676260944)
+        now = datetime.now()
+        time = now.strftime("%H:%M:%S")
+        shop_open = "18:00:00"
 
         if store_btn == 'server':
             response = requests.get("https://api.battlemetrics.com/servers/13458708", headers=head)
@@ -93,10 +98,38 @@ class SelfServeCommand(commands.Cog):
         elif store_btn == 'dailypack':
             check = players_exists(member.id)
             if check == 1:
-                player = players(member.id)
-                await interaction.respond(content='Daily Pack is being delivered to {}'.format(player[3]))
-            else:
-                await interaction.respond(content='⚠ Error, your account ID not found!')
+                if shop_open <= time:
+                    player = players(member.id)
+                    daily_pack = players[8]
+                    if daily_pack == 1:
+                        package_name = "dailypack"
+                        code = random.randint(9,99999)
+                        order_number = f'order{code}'
+                        await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
+                        add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                        queue = check_queue()
+                        order = in_order(player[2])
+                        update_daily_pack(player[2])
+                        await cmd_channel.send(
+                            f'{member.mention}'
+                            f'```Order number {order_number} delivery in progress from {order}/{queue}```'
+                        )
+                        await run_cmd_channel.send('!checkout {}'.format(order_number))
+                        return
+                    elif daily_pack == 0:
+                        message = '⚠ Error, Wait for get daily pack tomorrow.'
+                        await interaction.respond(content=message)
+                        return
+                    else:
+                        pass
+                    return
+                elif time <= shop_open:
+                    await interaction.respond(content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
+                    return
+            elif check == 0:
+                await interaction.respond(content=check)
+                return
+            return
 
         elif store_btn == "status":
             check = players_exists(member.id)
@@ -236,7 +269,7 @@ class SelfServeCommand(commands.Cog):
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         elif time <= shop_open:
-            await ctx.reply('Drone is still unavailable : the shop has been closed')
+            await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00', mention_author=False)
 
     @commands.command(name='status')
     async def status_command(self, ctx):
