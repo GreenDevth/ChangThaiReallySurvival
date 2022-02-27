@@ -16,6 +16,8 @@ class RacingEvent(commands.Cog):
         message = None
         if event_btn == "racing_register":
             message = "คุณได้ลงทะเบียนเป็นที่เรียบร้อย"
+            steam_id = get_steam_id(member.id)
+            new_players_event(member.name, member.id, steam_id)
             await interaction.edit_origin(
                 components=[
                     [
@@ -25,7 +27,8 @@ class RacingEvent(commands.Cog):
                     ]
                 ]
             )
-        await interaction.respond(content=message)
+            await interaction.channel.send(message, delete_after=5)
+            return
 
     @commands.command(name='racing')
     async def racing_command(self, ctx):
