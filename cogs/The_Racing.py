@@ -129,7 +129,7 @@ class RacingEvent(commands.Cog):
     @commands.command(name='uniform_set')
     async def uniform_set_command(self, ctx):
         await ctx.send(
-            'Get the racing uniform',
+            file=discord.File('./img/event/the_racing.png'),
             components=[
                 [
                     Button(label='SET_A', emoji='🚴‍♀️', custom_id='set_a'),
