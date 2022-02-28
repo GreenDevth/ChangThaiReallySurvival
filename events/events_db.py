@@ -77,6 +77,20 @@ def update_event_status(discord_id):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
+        cur.execute('UPDATE scum_events SET EVENT_STATUS = 2 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+def reset_event(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
         cur.execute('UPDATE scum_events SET EVENT_STATUS = 0 WHERE DISCORD_ID = %s', (discord_id,))
         conn.commit()
         cur.close()

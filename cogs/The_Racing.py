@@ -1,5 +1,5 @@
 import random
-
+from random import shuffle
 import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
@@ -102,14 +102,14 @@ class RacingEvent(commands.Cog):
 
             elif event_btn == 'random_bike':
 
-                if player[4] == 1:
+                if player[4] == 2:
 
                     package_name = f'{random_bike}'
                     message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
                     add_to_cart(player[2], player[1], player[3], order_number, package_name)
                     queue = check_queue()
                     order = in_order(player[2])
-                    update_event_status(player[2])
+                    reset_event(player[2])
                     await cmd_channel.send(
                         f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
                     await run_cmd_channel.send('!checkout {}'.format(order_number))
