@@ -86,6 +86,7 @@ def update_event_status(discord_id):
         if conn.is_connected():
             conn.close()
 
+
 def reset_event(discord_id):
     conn = None
     try:

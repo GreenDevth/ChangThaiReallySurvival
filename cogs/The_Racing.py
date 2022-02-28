@@ -164,7 +164,7 @@ class RacingEvent(commands.Cog):
             components=[
                 [
                     Button(style=ButtonStyle.blue, label='TELEPORT', emoji='✈', custom_id='air_plane'),
-                    Button(style=ButtonStyle.red, label='COUNT PLAYERS', emoji='🙋‍', custom_id='player_event_check')
+                    Button(style=ButtonStyle.gray, label='COUNT PLAYERS', emoji='🔄', custom_id='player_event_check', disabled=True)
                 ]
             ]
         )
