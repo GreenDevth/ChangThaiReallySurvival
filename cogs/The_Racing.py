@@ -132,11 +132,11 @@ class RacingEvent(commands.Cog):
             'Get the racing uniform',
             components=[
                 [
-                    Button(label='SET_A', emoji='👔', custom_id='set_a'),
-                    Button(label='SET_B', emoji='👔', custom_id='set_b'),
-                    Button(label='SET_C', emoji='👔', custom_id='set_c'),
-                    Button(label='SET_D', emoji='👔', custom_id='set_d'),
-                    Button(label='SET_E', emoji='👔', custom_id='set_e'),
+                    Button(label='SET_A', emoji='🚴‍♀️', custom_id='set_a'),
+                    Button(label='SET_B', emoji='🚴‍♀️', custom_id='set_b'),
+                    Button(label='SET_C', emoji='🚴‍♀️', custom_id='set_c'),
+                    Button(label='SET_D', emoji='🚴‍♀️', custom_id='set_d'),
+                    Button(label='SET_E', emoji='🚴‍♀️', custom_id='set_e'),
                 ]
             ]
         )
