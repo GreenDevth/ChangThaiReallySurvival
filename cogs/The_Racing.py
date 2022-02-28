@@ -23,6 +23,8 @@ bike = [
 ]
 random_bike = random.choice(bike)
 random_uniform = random.choice(uniform)
+
+
 class RacingEvent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -83,9 +85,7 @@ class RacingEvent(commands.Cog):
             order_number = f'order{code}'
             cmd_channel = self.bot.get_channel(925559937323659274)
             run_cmd_channel = self.bot.get_channel(927796274676260944)
-                
             if event_btn == 'random_uiform':
-                
                 if player[4] == 1:
 
                     package_name = f'bike_event_{random_uniform}'
@@ -101,7 +101,7 @@ class RacingEvent(commands.Cog):
                     message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mountain bike ไปก่อนหน้านี้แล้ว...'
 
             elif event_btn == 'random_bike':
-                
+
                 if player[4] == 1:
 
                     package_name = f'{random_bike}'
@@ -115,7 +115,6 @@ class RacingEvent(commands.Cog):
                     await run_cmd_channel.send('!checkout {}'.format(order_number))
                 else:
                     message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mount tain bike ไปก่อนหน้านี้แล้ว...'
-
 
             await interaction.respond(content=message)
             return
