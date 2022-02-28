@@ -117,16 +117,8 @@ class RacingEvent(commands.Cog):
                     message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mount tain bike ไปก่อนหน้านี้แล้ว...'
 
             elif event_btn == 'air_plane':
-                if player[4] == 1:
-                    await run_cmd_channel.send(f'.set #Teleport 601738.127 -677004.6301 26910 {player[3]}')
-                    message = f"{player[1]} ระบบกำลังเตรียมส่งคุณไปยังจุดสตาร์ท Event โปรดรอสักครู่"
-                else:
-                    message = f'{player[1]} คุณได้ใช้สิทธิในการ Teleport ไปแล้ว'
-
-            elif event_btn == 'player_event_check':
-                players = get_all_players()
-                message = f'```\n{players}\n```'
-
+                message = f"{player[1]} ระบบกำลังเตรียมส่งคุณไปยังจุดสตาร์ท Event โปรดรอสักครู่"
+                await run_cmd_channel.send(f'.set #Teleport 601738.127 -677004.6301 26910 {player[3]}')
             await interaction.respond(content=message)
             return
 
