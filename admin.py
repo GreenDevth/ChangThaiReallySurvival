@@ -74,7 +74,7 @@ class Administrator(commands.Cog):
             before_coins = player[5]
             marge = before_coins - amount
             update_coins(marge, discord_id)
-            await ctx.reply('Add **${:,d}** to **{}** by system successfull.'.format(amount, player[1]),
+            await ctx.reply('Remove **${:,d}** to **{}** by system successfull.'.format(amount, player[1]),
                             mention_author=False)
         else:
             await ctx.reply(f'This **{discord_id}** could not be found in the database.', mention_author=False)
