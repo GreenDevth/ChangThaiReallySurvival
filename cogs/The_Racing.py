@@ -118,7 +118,7 @@ class RacingEvent(commands.Cog):
 
             elif event_btn == 'air_plane':
                 message = f"{player[1]} ระบบกำลังเตรียมส่งคุณไปยังจุดสตาร์ท Event โปรดรอสักครู่"
-                await run_cmd_channel.send(f'.set #Teleport 601738.127 -677004.6301 26910 {player[3]}')
+                await run_cmd_channel.send(f'.set #Teleport 601659.500 -678217.875 1158.450 {player[3]}')
             await interaction.respond(content=message)
             return
 
