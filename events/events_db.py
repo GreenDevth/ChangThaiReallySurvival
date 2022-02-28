@@ -58,6 +58,7 @@ def get_steam_id(discord_id):
     except Error as e:
         print(e)
 
+
 def get_players_event(discord_id):
     try:
         conn = MySQLConnection(**db)
@@ -70,10 +71,17 @@ def get_players_event(discord_id):
     except Error as e:
         print(e)
 
+
 def update_event_status(discord_id):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
+        cur.execute('UPDATE scum_events SET EVENT_STATUS = 1 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
     except Error as e:
         print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()

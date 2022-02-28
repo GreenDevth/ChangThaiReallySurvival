@@ -1,10 +1,12 @@
-import discord
 import random
-import asyncio
+
+import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
+
 from events.events_db import *
 from store.store_db import add_to_cart, in_order, check_queue
+
 
 class RacingEvent(commands.Cog):
     def __init__(self, bot):
@@ -27,7 +29,8 @@ class RacingEvent(commands.Cog):
                     components=[
                         [
                             Button(style=ButtonStyle.blue, label='REGISTER', emoji='📝', custom_id='racing_register'),
-                            Button(style=ButtonStyle.green, label=f'NUMBER OF REGISTERED PLAYERS : {totals}', emoji='📝',
+                            Button(style=ButtonStyle.green, label=f'NUMBER OF REGISTERED PLAYERS : {totals}',
+                                   emoji='📝',
                                    custom_id='racing_count', disabled=False),
                         ]
                     ]
@@ -61,57 +64,68 @@ class RacingEvent(commands.Cog):
         elif check == 1:
             message = None
             player = get_players_event(member.id)
-            code = random.randint(9,99999)
+            code = random.randint(9, 99999)
             order_number = f'order{code}'
             cmd_channel = self.bot.get_channel(925559937323659274)
             run_cmd_channel = self.bot.get_channel(927796274676260944)
             if event_btn == 'set_a':
                 package_name = f'bike_event_{event_btn}'
                 message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                # add_to_cart(player[2], player[1], payer[3], order_number, package_name)
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
                 queue = check_queue()
                 order = in_order(player[2])
-                await cmd_channel.send(f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                # await run_cmd_channel.send('!checkout {}'.format(order_number))
-                return message
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             elif event_btn == 'set_b':
                 package_name = f'bike_event_{event_btn}'
                 message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                # add_to_cart(player[2], player[1], payer[3], order_number, package_name)
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
                 queue = check_queue()
                 order = in_order(player[2])
-                await cmd_channel.send(f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                # await run_cmd_channel.send('!checkout {}'.format(order_number))
-                return message
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             elif event_btn == 'set_c':
                 package_name = f'bike_event_{event_btn}'
                 message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                # add_to_cart(player[2], player[1], payer[3], order_number, package_name)
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
                 queue = check_queue()
                 order = in_order(player[2])
-                await cmd_channel.send(f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                # await run_cmd_channel.send('!checkout {}'.format(order_number))
-                return message
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             elif event_btn == 'set_d':
                 package_name = f'bike_event_{event_btn}'
                 message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                # add_to_cart(player[2], player[1], payer[3], order_number, package_name)
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
                 queue = check_queue()
                 order = in_order(player[2])
-                await cmd_channel.send(f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                # await run_cmd_channel.send('!checkout {}'.format(order_number))
-                return message
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             elif event_btn == 'set_e':
                 package_name = f'bike_event_{event_btn}'
                 message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                # add_to_cart(player[2], player[1], payer[3], order_number, package_name)
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
                 queue = check_queue()
                 order = in_order(player[2])
-                await cmd_channel.send(f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                # await run_cmd_channel.send('!checkout {}'.format(order_number))
-                return message
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             await interaction.respond(content=message)
             return
+
     @commands.command(name='uniform_set')
     async def uniform_set_command(self, ctx):
         await ctx.send(
