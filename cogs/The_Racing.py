@@ -123,20 +123,77 @@ class RacingEvent(commands.Cog):
                     f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
 
+            elif event_btn == 'bike_a':
+                package_name = f'bike_event_{event_btn}'
+                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                queue = check_queue()
+                order = in_order(player[2])
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
+            elif event_btn == 'bike_b':
+                package_name = f'bike_event_{event_btn}'
+                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                queue = check_queue()
+                order = in_order(player[2])
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
+            elif event_btn == 'bike_c':
+                package_name = f'bike_event_{event_btn}'
+                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                queue = check_queue()
+                order = in_order(player[2])
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
+            elif event_btn == 'bike_d':
+                package_name = f'bike_event_{event_btn}'
+                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                queue = check_queue()
+                order = in_order(player[2])
+                update_event_status(player[2])
+                await cmd_channel.send(
+                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                await run_cmd_channel.send('!checkout {}'.format(order_number))
+
             await interaction.respond(content=message)
             return
 
     @commands.command(name='uniform_set')
     async def uniform_set_command(self, ctx):
+        uniform = [
+            "set_a",
+            "set_b",
+            "set_c",
+            "set_d",
+            "set_e"
+
+        ]
+        bike = [
+            "bike_a",
+            "bike_b",
+            "bike_c",
+            "bike_d"
+        ]
+        random_bike = random.choice(bike)
+        random_uniform = random.choice(uniform)
         await ctx.send(
             file=discord.File('./img/event/the_racing.png'),
             components=[
                 [
-                    Button(label='SET_A', emoji='🚴‍♀️', custom_id='set_a'),
-                    Button(label='SET_B', emoji='🚴‍♀️', custom_id='set_b'),
-                    Button(label='SET_C', emoji='🚴‍♀️', custom_id='set_c'),
-                    Button(label='SET_D', emoji='🚴‍♀️', custom_id='set_d'),
-                    Button(label='SET_E', emoji='🚴‍♀️', custom_id='set_e'),
+                    Button(style=ButtonStyle.green, label='GET UNIFORM', emoji='🥋', custom_id=random_uniform),
+                    Button(style=ButtonStyle.red, label='GET MOUNTAIN BIKE', emoji='🚴‍', custom_id=random_bike)
                 ]
             ]
         )
