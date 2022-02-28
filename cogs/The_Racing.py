@@ -57,6 +57,21 @@ class RacingEvent(commands.Cog):
                 ]
             )
 
+    @commands.command(name='uniform_set')
+    async def uniform_set_command(self, ctx):
+        await ctx.send(
+            'Get the racing uniform',
+            components=[
+                [
+                    Button(label='SET_A', emoji='👔', custom_id='set_a'),
+                    Button(label='SET_B', emoji='👔', custom_id='set_b'),
+                    Button(label='SET_C', emoji='👔', custom_id='set_c'),
+                    Button(label='SET_D', emoji='👔', custom_id='set_d'),
+                    Button(label='SET_E', emoji='👔', custom_id='set_e'),
+                ]
+            ]
+        )
+
     @commands.command(name='racing')
     async def racing_command(self, ctx):
         total = count_event_player()
