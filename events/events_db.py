@@ -85,3 +85,16 @@ def update_event_status(discord_id):
     finally:
         if conn.is_connected():
             conn.close()
+
+
+def get_all_players():
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT DISCORD_NAME FROM scum_events ORDER BY DISCORD_ID')
+        row = cur.fetchall()
+        while row is not None:
+            for x in row:
+                return x
+    except Error as e:
+        print(e)

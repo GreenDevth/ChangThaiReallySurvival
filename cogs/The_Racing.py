@@ -116,6 +116,17 @@ class RacingEvent(commands.Cog):
                 else:
                     message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mount tain bike ไปก่อนหน้านี้แล้ว...'
 
+            elif event_btn == 'air_plane':
+                if player[4] == 1:
+                    await run_cmd_channel.send(f'.set #Teleport 601738.127 -677004.6301 26910 {player[3]}')
+                    message = f"{player[1]} ระบบกำลังเตรียมส่งคุณไปยังจุดสตาร์ท Event โปรดรอสักครู่"
+                else:
+                    message = f'{player[1]} คุณได้ใช้สิทธิในการ Teleport ไปแล้ว'
+
+            elif event_btn == 'player_event_check':
+                players = get_all_players()
+                message = f'```\n{players}\n```'
+
             await interaction.respond(content=message)
             return
 
@@ -142,6 +153,18 @@ class RacingEvent(commands.Cog):
                     Button(style=ButtonStyle.blue, label='REGISTER', emoji='📝', custom_id='racing_register'),
                     Button(style=ButtonStyle.red, label=f'NUMBER OF REGISTERED PLAYERS : {total}', emoji='📝',
                            custom_id='racing_count', disabled=False),
+                ]
+            ]
+        )
+
+    @commands.command(name='teleport')
+    async def teleport_comamnd(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/event/teleport_event.png'),
+            components=[
+                [
+                    Button(style=ButtonStyle.blue, label='TELEPORT', emoji='✈', custom_id='air_plane'),
+                    Button(style=ButtonStyle.red, label='COUNT PLAYERS', emoji='🙋‍', custom_id='player_event_check')
                 ]
             ]
         )
