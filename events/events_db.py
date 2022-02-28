@@ -57,3 +57,23 @@ def get_steam_id(discord_id):
             return res[0]
     except Error as e:
         print(e)
+
+def get_players_event(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM scum_events WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchall()
+        while row is not None:
+            for x in row:
+                return x
+    except Error as e:
+        print(e)
+
+def update_event_status(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+    except Error as e:
+        print(e)
