@@ -7,7 +7,22 @@ from discord_components import Button, ButtonStyle
 from events.events_db import *
 from store.store_db import add_to_cart, in_order, check_queue
 
+uniform = [
+    "set_a",
+    "set_b",
+    "set_c",
+    "set_d",
+    "set_e"
 
+]
+bike = [
+    "bike_a",
+    "bike_b",
+    "bike_c",
+    "bike_d"
+]
+random_bike = random.choice(bike)
+random_uniform = random.choice(uniform)
 class RacingEvent(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -68,132 +83,51 @@ class RacingEvent(commands.Cog):
             order_number = f'order{code}'
             cmd_channel = self.bot.get_channel(925559937323659274)
             run_cmd_channel = self.bot.get_channel(927796274676260944)
-            if event_btn == 'set_a':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
+                
+            if event_btn == 'random_uiform':
+                
+                if player[4] == 1:
 
-            elif event_btn == 'set_b':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
+                    package_name = f'bike_event_{random_uniform}'
+                    message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                    add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                    queue = check_queue()
+                    order = in_order(player[2])
+                    update_event_status(player[2])
+                    await cmd_channel.send(
+                        f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                    await run_cmd_channel.send('!checkout {}'.format(order_number))
+                else:
+                    message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mountain bike ไปก่อนหน้านี้แล้ว...'
 
-            elif event_btn == 'set_c':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
+            elif event_btn == 'random_bike':
+                
+                if player[4] == 1:
 
-            elif event_btn == 'set_d':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
+                    package_name = f'{random_bike}'
+                    message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
+                    add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                    queue = check_queue()
+                    order = in_order(player[2])
+                    update_event_status(player[2])
+                    await cmd_channel.send(
+                        f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
+                    await run_cmd_channel.send('!checkout {}'.format(order_number))
+                else:
+                    message = '⚠ Error, คุณได้ยดรับ Uniform set  หรือ Mount tain bike ไปก่อนหน้านี้แล้ว...'
 
-            elif event_btn == 'set_e':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
-
-            elif event_btn == 'bike_a':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
-
-            elif event_btn == 'bike_b':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
-
-            elif event_btn == 'bike_c':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
-
-            elif event_btn == 'bike_d':
-                package_name = f'bike_event_{event_btn}'
-                message = f'{member.name} คำสั่งหมายเลข {order_number} ระบบกำลังเตรียมจัดส่งไปให้คุณ โปรดรอสักครู่'
-                add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                queue = check_queue()
-                order = in_order(player[2])
-                update_event_status(player[2])
-                await cmd_channel.send(
-                    f'{member.mention} ```Order number {order_number} delivery in progress from {order}/{queue}```')
-                await run_cmd_channel.send('!checkout {}'.format(order_number))
 
             await interaction.respond(content=message)
             return
 
     @commands.command(name='uniform_set')
     async def uniform_set_command(self, ctx):
-        uniform = [
-            "set_a",
-            "set_b",
-            "set_c",
-            "set_d",
-            "set_e"
-
-        ]
-        bike = [
-            "bike_a",
-            "bike_b",
-            "bike_c",
-            "bike_d"
-        ]
-        random_bike = random.choice(bike)
-        random_uniform = random.choice(uniform)
         await ctx.send(
             file=discord.File('./img/event/the_racing.png'),
             components=[
                 [
-                    Button(style=ButtonStyle.green, label='GET UNIFORM', emoji='🥋', custom_id=random_uniform),
-                    Button(style=ButtonStyle.red, label='GET MOUNTAIN BIKE', emoji='🚴‍', custom_id=random_bike)
+                    Button(style=ButtonStyle.green, label='GET UNIFORM SET', emoji='🥋', custom_id='random_uiform'),
+                    Button(style=ButtonStyle.blue, label='GET MOUNTAIN BIKE', emoji='🚴', custom_id='random_bike')
                 ]
             ]
         )
