@@ -280,7 +280,7 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
-        await interaction.respond(content=message, ephemeral=False)
+        await interaction.respond(content=message)
         return
 
     @commands.command(name='ww2')
