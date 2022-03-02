@@ -292,6 +292,7 @@ def players_event(discord_id):
     except Error as e:
         print(e)
 
+
 class EventRegister(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
