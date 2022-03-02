@@ -412,17 +412,17 @@ class EventRegister(commands.Cog):
 
         elif ww2_btn == 'teleport_blue':
             if teleport == 1:
+                update_teleport(member.id)
                 message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
                 teleport = f'.set #teleport 584233.000 -84023.656 1666.030 {player[3]}'
-                update_teleport(member.id)
                 await run_cmd_channel.send(teleport)
                 await run_cmd_channel.send(f'.location #Location {player[3]} true')
 
         elif ww2_btn == 'teleport_red':
             if teleport == 1:
+                update_teleport(member.id)
                 message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
                 teleport = f'.set #teleport 589340.438 -127331.359 2079.710 {player[3]}'
-                update_teleport(member.id)
                 await run_cmd_channel.send(teleport)
                 await run_cmd_channel.send(f'.location #Location {player[3]} true')
 
