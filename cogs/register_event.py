@@ -450,7 +450,7 @@ class EventRegister(commands.Cog):
     @commands.command(name='event_set')
     async def event_set_command(self, ctx):
         await ctx.send(
-            file=discord.File('./img/event/the_battle.png'),
+            file=discord.File('./img/event/the_battle_l2.png'),
             components=[
                 [
                     Button(style=ButtonStyle.green, label='MEDICINE', emoji='💉', custom_id='medicine'),
@@ -472,6 +472,7 @@ class EventRegister(commands.Cog):
                 ]
             ]
         )
+        await ctx.message.delete()
 
     @commands.command(name='clears')
     async def clears_command(self, ctx, number: int):
