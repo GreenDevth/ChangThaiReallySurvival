@@ -410,6 +410,22 @@ class EventRegister(commands.Cog):
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
 
+        elif ww2_btn == 'teleport_blue':
+            message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
+            teleport = f'.set #teleport 584233.000 -84023.656 1666.030 {player[3]}'
+            await interaction.respond(content=message)
+            await run_cmd_channel.send(teleport)
+            await run_cmd_channel.send(f'.location #Location {player[3]} true')
+            return
+
+        elif ww2_btn == 'teleport_red':
+            message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
+            teleport = f'.set #teleport 589340.438 -127331.359 2079.710 {player[3]}'
+            await interaction.respond(content=message)
+            await run_cmd_channel.send(teleport)
+            await run_cmd_channel.send(f'.location #Location {player[3]} true')
+            return
+
         elif ww2_btn == 'uniform_blue':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
@@ -479,6 +495,20 @@ class EventRegister(commands.Cog):
     async def clears_command(self, ctx, number: int):
         await ctx.send(f'Message **{number + 2}** has been deleted')
         await ctx.channel.purge(limit=number + 2)
+    
+
+    @commands.command(name='teleport')
+    async def teleport_comamnd(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/event/teleport_event.png'),
+            components=[
+                [
+                    Button(style=ButtonStyle.blue, label='GOTO TEAM BLUE', emoji='✈', custom_id='teleport_blue'),
+                    Button(style=ButtonStyle.red, label='GOTO TEAM RED', emoji='✈', custom_id='teleport_red')
+                ]
+            ]
+        )
+        await ctx.message.delete()
 
 
 def setup(bot):
