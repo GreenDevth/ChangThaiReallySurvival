@@ -21,7 +21,7 @@ class EventCommand(commands.Cog):
             message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
             teleport = f'.set #teleport 584233.000 -84023.656 1666.030 {player[3]}'
             await cmd_channel.send(teleport)
-            await cmd_channel.send('.set')
+            await cmd_channel.send(f'.location #Location {player[3]} true')
         elif ebtn == 'teleport_blue':
             message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
             teleport = f'.set #teleport =589340.438 -127331.359 2079.710 {player[3]}'
