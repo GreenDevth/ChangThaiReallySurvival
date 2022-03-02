@@ -50,13 +50,13 @@ def update_mission(discord_id, status):
             conn.close()
 
 
-def event_register(discord_name, discord_id, steam_id):
+def event_register(discord_name, discord_id, steleport_id):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         cur.execute('INSERT INTO scum_wwii_event(DISCORD_NAME, DISCORD_ID, STEAM_ID) VALUES(%s,%s,%s)',
-                    (discord_name, discord_id, steam_id,))
+                    (discord_name, discord_id, steleport_id,))
         conn.commit()
         cur.close()
     except Error as e:
@@ -66,14 +66,14 @@ def event_register(discord_name, discord_id, steam_id):
             conn.close()
 
 
-def select_team(discord_id, team):
+def select_teleport(discord_id, teleport):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('UPDATE scum_wwii_event SET TEAM = %s WHERE DISCORD_ID = %s', (team, discord_id,))
+        cur.execute('UPDATE scum_wwii_event SET teleport = %s WHERE DISCORD_ID = %s', (teleport, discord_id,))
         conn.commit()
-        cur.execute('SELECT TEAM FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        cur.execute('SELECT teleport FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
         row = cur.fetchone()
         while row is not None:
             res = list(row)
@@ -86,11 +86,11 @@ def select_team(discord_id, team):
             conn.close()
 
 
-def event_count(team):
+def event_count(teleport):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(*) FROM scum_wwii_event WHERE TEAM = %s', (team,))
+        cur.execute('SELECT COUNT(*) FROM scum_wwii_event WHERE teleport = %s', (teleport,))
         row = cur.fetchone()
         while row is not None:
             res = list(row)
@@ -99,7 +99,7 @@ def event_count(team):
         print(e)
 
 
-def check_team_information(discord_id):
+def check_teleport(discord_id):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
@@ -113,14 +113,14 @@ def check_team_information(discord_id):
         print(e)
 
 
-def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
+def add_to_cart(discord_id, discord_name, steleport_id, product_code, package_name):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         sql = 'INSERT INTO scum_shopping_cart(discord_id, discord_name, steam_id, order_number, ' \
               'package_name) VALUES (%s,%s,%s,%s,%s)'
-        cur.execute(sql, (discord_id, discord_name, steam_id, product_code, package_name,))
+        cur.execute(sql, (discord_id, discord_name, steleport_id, product_code, package_name,))
         print('Insert new order name {}'.format(product_code))
         conn.commit()
         cur.close()
@@ -163,6 +163,135 @@ def in_order(discord_id):
         print(e)
 
 
+def update_teleport(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_wwii_event SET TELEPORT = 0 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
+def update_status(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_wwii_event SET STATUS = 0 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
+def update_uniform_status(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_wwii_event SET UNIFORM_SET = 0 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
+def update_weapong_status(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_wwii_event SET WEAPON_SET = 0 WHERE DISCORD_ID = %s', (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+
+
+def check_status(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT STATUS FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+    except Error as e:
+        print(e)
+
+
+def check_weapon_status(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT WEAPON_SET FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+    except Error as e:
+        print(e)
+
+
+def check_uniform_status(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT UNIFORM_SET FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+    except Error as e:
+        print(e)
+
+
+def team_check(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT TEAM FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+    except Error as e:
+        print(e)
+
+
+def players_event(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+    except Error as e:
+        print(e)
+
 class EventRegister(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -172,9 +301,14 @@ class EventRegister(commands.Cog):
         member = interaction.author
         ww2_btn = interaction.component.custom_id
         player = players(member.id)
-        team = check_team_information(member.id)
+        teleport = check_teleport(member.id)
+        team = team_check(member.id)
+        status = check_status(member.id)
+        weapon = check_weapon_status(member.id)
+        uniform = check_uniform_status(member.id)
         cmd_channel = self.bot.get_channel(925559937323659274)
         run_cmd_channel = self.bot.get_channel(927796274676260944)
+        event = players_event(member.id)
         message = None
         if ww2_btn == 'event_register':
             if player[11] == 0 and player[3] is not None:
@@ -184,24 +318,24 @@ class EventRegister(commands.Cog):
                 event_register(member.name, member.id, player[3])
                 print('New players register event.')
             elif player[3] is None:
-                message = 'คุณยังไม่ได้ทำการลงทะเบียน Steam id'
+                message = 'คุณยังไม่ได้ทำการลงทะเบียน Steleport id'
             else:
                 message = "⚠ Error, คุณได้ลงทะเบียนไว้แล้ว"
         elif ww2_btn == 'event_a':
-            team = 'RED'
-            select = select_team(member.id, team)
-            count = event_count(team)
+            teleport = 'RED'
+            select = select_teleport(member.id, teleport)
+            count = event_count(teleport)
             message = f'{member.name} คุณได้เลือกทีม {select} จำนวนผู้เล่นในทีม ทั้งหมด {count}'
-            print(message)
         elif ww2_btn == 'event_b':
-            team = 'BLUE'
-            select = select_team(member.id, team)
-            count = event_count(team)
+            teleport = 'BLUE'
+            select = select_teleport(member.id, teleport)
+            count = event_count(teleport)
             message = f'{member.name} คุณได้เลือกทีม {select} จำนวนผู้เล่นในทีม ทั้งหมด {count}'
-            print(message)
         elif ww2_btn == 'medicine':
-            if team == 1:
+            if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
+            elif status == 0:
+                message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
                 package = 'dailypack'
                 code = random.randint(9, 99999)
@@ -217,8 +351,10 @@ class EventRegister(commands.Cog):
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
 
         elif ww2_btn == 'sniper':
-            if team == 1:
+            if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
+            elif status == 0:
+                message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
                 package = 'compound_woodland'
                 code = random.randint(9, 99999)
@@ -232,9 +368,12 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+
         elif ww2_btn == 'attacker':
-            if team == 1:
+            if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
+            elif status == 0:
+                message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
                 package = 'attacker_set'
                 code = random.randint(9, 99999)
@@ -248,9 +387,14 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+
         elif ww2_btn == 'uniform_red':
-            if team == 1:
+            if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
+            elif status == 0:
+                message = '⚠ ขออภัยคุณได้รับเซ็ตเครื่องแต่งกายสำหรับกิจแล้ว'
+            elif team != event[4]:
+                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {event[4]}'
             else:
                 package = 'uniform_red'
                 code = random.randint(9, 99999)
@@ -264,9 +408,14 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+
         elif ww2_btn == 'uniform_blue':
-            if team == 1:
+            if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
+            elif status == 0:
+                message = '⚠ ขออภัยคุณได้รับเซ็ตเครื่องแต่งกายสำหรับกิจแล้ว'
+            elif team != event[4]:
+                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {event[4]}'
             else:
                 package = 'uniform_blue'
                 code = random.randint(9, 99999)
@@ -280,6 +429,7 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+
         await interaction.respond(content=message)
         return
 
@@ -290,8 +440,8 @@ class EventRegister(commands.Cog):
             components=[
                 [
                     Button(style=ButtonStyle.green, label='REGISTER', emoji='📝', custom_id='event_register'),
-                    Button(style=ButtonStyle.red, label='RED TEAM', emoji='🛡', custom_id='event_a'),
-                    Button(style=ButtonStyle.blue, label='BLUE TEAM', emoji='⚔', custom_id='event_b')
+                    Button(style=ButtonStyle.red, label='RED teleport', emoji='🛡', custom_id='event_a'),
+                    Button(style=ButtonStyle.blue, label='BLUE teleport', emoji='⚔', custom_id='event_b')
                 ]
             ]
         )
@@ -314,7 +464,7 @@ class EventRegister(commands.Cog):
     @commands.command(name='event_uniform_set')
     async def event_uniform_set(self, ctx):
         await ctx.send(
-            file=discord.File('./img/event/the_battle.png'),
+            file=discord.File('./img/event/the_battle_l.png'),
             components=[
                 [
                     Button(style=ButtonStyle.red, label='UNIFORM RED', emoji='👔', custom_id='uniform_red'),
