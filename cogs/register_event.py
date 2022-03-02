@@ -323,8 +323,8 @@ class EventRegister(commands.Cog):
             ]
         )
 
-    @commands.command(name='clear')
-    async def clear_command(self, ctx, number: int):
+    @commands.command(name='clears')
+    async def clears_command(self, ctx, number: int):
         await ctx.send(f'Message **{number + 2}** has been deleted')
         await ctx.channel.purge(limit=number + 2)
 
