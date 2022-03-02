@@ -66,14 +66,14 @@ def event_register(discord_name, discord_id, steleport_id):
             conn.close()
 
 
-def select_teleport(discord_id, teleport):
+def select_teleport(discord_id, team):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('UPDATE scum_wwii_event SET teleport = %s WHERE DISCORD_ID = %s', (teleport, discord_id,))
+        cur.execute('UPDATE scum_wwii_event SET TEAM = %s WHERE DISCORD_ID = %s', (team, discord_id,))
         conn.commit()
-        cur.execute('SELECT teleport FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
+        cur.execute('SELECT TEAM FROM scum_wwii_event WHERE DISCORD_ID = %s', (discord_id,))
         row = cur.fetchone()
         while row is not None:
             res = list(row)
@@ -86,11 +86,11 @@ def select_teleport(discord_id, teleport):
             conn.close()
 
 
-def event_count(teleport):
+def event_count(team):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(*) FROM scum_wwii_event WHERE teleport = %s', (teleport,))
+        cur.execute('SELECT COUNT(*) FROM scum_wwii_event WHERE TEAM = %s', (team,))
         row = cur.fetchone()
         while row is not None:
             res = list(row)
@@ -113,14 +113,14 @@ def check_teleport(discord_id):
         print(e)
 
 
-def add_to_cart(discord_id, discord_name, steleport_id, product_code, package_name):
+def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         sql = 'INSERT INTO scum_shopping_cart(discord_id, discord_name, steam_id, order_number, ' \
               'package_name) VALUES (%s,%s,%s,%s,%s)'
-        cur.execute(sql, (discord_id, discord_name, steleport_id, product_code, package_name,))
+        cur.execute(sql, (discord_id, discord_name, steam_id, product_code, package_name,))
         print('Insert new order name {}'.format(product_code))
         conn.commit()
         cur.close()
@@ -319,29 +319,32 @@ class EventRegister(commands.Cog):
                 event_register(member.name, member.id, player[3])
                 print('New players register event.')
             elif player[3] is None:
-                message = 'คุณยังไม่ได้ทำการลงทะเบียน Steleport id'
+                message = 'คุณยังไม่ได้ทำการลงทะเบียน Steam id'
             else:
                 message = "⚠ Error, คุณได้ลงทะเบียนไว้แล้ว"
         elif ww2_btn == 'event_a':
-            teleport = 'RED'
-            select = select_teleport(member.id, teleport)
-            count = event_count(teleport)
+            team = 'RED'
+            select = select_teleport(member.id, team)
+            count = event_count(team)
             message = f'{member.name} คุณได้เลือกทีม {select} จำนวนผู้เล่นในทีม ทั้งหมด {count}'
         elif ww2_btn == 'event_b':
-            teleport = 'BLUE'
-            select = select_teleport(member.id, teleport)
-            count = event_count(teleport)
+            team = 'BLUE'
+            select = select_teleport(member.id, team)
+            count = event_count(team)
             message = f'{member.name} คุณได้เลือกทีม {select} จำนวนผู้เล่นในทีม ทั้งหมด {count}'
+
         elif ww2_btn == 'medicine':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
-            elif status == 0:
+            elif weapon == 0:
                 message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
-                package = 'dailypack'
+                package = 'medicine_set'
                 code = random.randint(9, 99999)
                 order_number = f'order{code}'
                 message = f'โปรดรอสักครู่ ระบบกำลังจัดส่ง {package.upper()} ไปให้คุณ'
+                await interaction.respond(content=message)
+                update_weapong_status(member.id)
                 add_to_cart(player[2], player[1], player[3], order_number, package)
                 queue = check_queue()
                 order = in_order(player[2])
@@ -350,17 +353,21 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+                return
+
 
         elif ww2_btn == 'sniper':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
-            elif status == 0:
+            elif weapon == 0:
                 message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
-                package = 'compound_woodland'
+                package = 'sniper_set'
                 code = random.randint(9, 99999)
                 order_number = f'order{code}'
                 message = f'โปรดรอสักครู่ ระบบกำลังจัดส่ง {package.upper()} ไปให้คุณ'
+                await interaction.respond(content=message)
+                update_weapong_status(member.id)
                 add_to_cart(player[2], player[1], player[3], order_number, package)
                 queue = check_queue()
                 order = in_order(player[2])
@@ -369,17 +376,20 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+                return
 
         elif ww2_btn == 'attacker':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
-            elif status == 0:
+            elif weapon == 0:
                 message = '⚠ ขออภัยคุณได้รับเซ็ตอาวุธสำหรับกิจแล้ว'
             else:
                 package = 'attacker_set'
                 code = random.randint(9, 99999)
                 order_number = f'order{code}'
                 message = f'โปรดรอสักครู่ ระบบกำลังจัดส่ง {package.upper()} ไปให้คุณ'
+                await interaction.respond(content=message)
+                update_weapong_status(member.id)
                 add_to_cart(player[2], player[1], player[3], order_number, package)
                 queue = check_queue()
                 order = in_order(player[2])
@@ -388,19 +398,22 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+                return
 
         elif ww2_btn == 'uniform_red':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
-            elif status == 0:
+            elif uniform == 0:
                 message = '⚠ ขออภัยคุณได้รับเซ็ตเครื่องแต่งกายสำหรับกิจแล้ว'
-            elif team != event[4]:
-                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {event[4]}'
+            elif team == 'BLUE':
+                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {team}'
             else:
                 package = 'uniform_red'
                 code = random.randint(9, 99999)
                 order_number = f'order{code}'
                 message = f'โปรดรอสักครู่ ระบบกำลังจัดส่ง {package.upper()} ไปให้คุณ'
+                await interaction.respond(content=message)
+                update_uniform_status(member.id)
                 add_to_cart(player[2], player[1], player[3], order_number, package)
                 queue = check_queue()
                 order = in_order(player[2])
@@ -409,39 +422,23 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+                return
 
-        elif ww2_btn == 'teleport_blue':
-            if team != event[4]:
-                message = f'⚠ Error, คำสั่งไม่ทำงาน เนื่องจากคุณอยู่ทีม {event[4]}'
-            elif teleport == 1:
-                update_teleport(member.id)
-                teleport = f'.set #teleport 584233.000 -84023.656 1666.030 {player[3]}'
-                await run_cmd_channel.send(teleport)
-                await run_cmd_channel.send(f'.location #Location {player[3]} true')
-                message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
-
-        elif ww2_btn == 'teleport_red':
-            if team != event[4]:
-                message = f'⚠ Error, คำสั่งไม่ทำงาน เนื่องจากคุณอยู่ทีม {event[4]}'
-            elif teleport == 1:
-                update_teleport(member.id)
-                teleport = f'.set #teleport 589340.438 -127331.359 2079.710 {player[3]}'
-                await run_cmd_channel.send(teleport)
-                await run_cmd_channel.send(f'.location #Location {player[3]} true')
-                message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
 
         elif ww2_btn == 'uniform_blue':
             if teleport == 1:
                 message = '⚠ ขอภัยคุณอยู่นอกพื้นที่กิจกรรม'
-            elif status == 0:
+            elif uniform == 0:
                 message = '⚠ ขออภัยคุณได้รับเซ็ตเครื่องแต่งกายสำหรับกิจแล้ว'
-            elif team != event[4]:
-                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {event[4]}'
+            elif team == 'RED':
+                message = f'⚠ ขออภัยคุณ คุณต้องเลือกชุดของทีม {team}'
             else:
                 package = 'uniform_blue'
                 code = random.randint(9, 99999)
                 order_number = f'order{code}'
                 message = f'โปรดรอสักครู่ ระบบกำลังจัดส่ง {package.upper()} ไปให้คุณ'
+                await interaction.respond(content=message)
+                update_uniform_status(member.id)
                 add_to_cart(player[2], player[1], player[3], order_number, package)
                 queue = check_queue()
                 order = in_order(player[2])
@@ -450,7 +447,40 @@ class EventRegister(commands.Cog):
                     f'```{package} id {order_number} delivery in progress from {order}/{queue}```'
                 )
                 await run_cmd_channel.send('!checkout {}'.format(order_number))
+                return
 
+
+
+
+        elif ww2_btn == 'teleport_blue':
+            if teleport == 0:
+                message = 'สิทธิ์ในการใช้งานคำสั่งนี้ของคุณหมดแล้ว'
+            elif team == 'RED':
+                message = "⚠ Error, คำสั่งไม่ทำงานเนื่องจากคุณอยู่ทีม {}".format(team)
+            else:
+                message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
+                await interaction.respond(content=message)
+                update_teleport(member.id)
+                teleport = f'.set #teleport 584233.000 -84023.656 1666.030 {player[3]}'
+                await run_cmd_channel.send(teleport)
+                await run_cmd_channel.send(f'.location #Location {player[3]} true')
+                return
+                
+        elif ww2_btn == 'teleport_red':
+
+            if teleport == 0:
+                message = 'สิทธิ์ในการใช้งานคำสั่งนี้ของคุณหมดแล้ว'
+            elif team == 'BLUE':
+                message = "⚠ Error, คำสั่งไม่ทำงานเนื่องจากคุณอยู่ทีม {}".format(team)
+            else:
+                message = f'{member.name} ระบบกำลังนำคุณไปฐานที่มั่นของคุณ'
+                await interaction.respond(content=message)
+                update_teleport(member.id)
+                teleport = f'.set #teleport 589340.438 -127331.359 2079.710 {player[3]}'
+                await run_cmd_channel.send(teleport)
+                await run_cmd_channel.send(f'.location #Location {player[3]} true')
+                return
+                
         await interaction.respond(content=message)
         return
 
