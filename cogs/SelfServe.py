@@ -11,6 +11,7 @@ from config.Auth import get_token
 from players.players_db import players_exists, players, update_daily_pack
 from store.store_db import add_to_cart, in_order, check_queue
 from level.Rank_db import player_rank
+
 token = get_token(2)
 url = get_token(3)
 
@@ -103,7 +104,7 @@ class SelfServeCommand(commands.Cog):
                     daily_pack = players[8]
                     if daily_pack == 1:
                         package_name = "dailypack"
-                        code = random.randint(9,99999)
+                        code = random.randint(9, 99999)
                         order_number = f'order{code}'
                         await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
                         add_to_cart(player[2], player[1], player[3], order_number, package_name)
@@ -124,7 +125,8 @@ class SelfServeCommand(commands.Cog):
                         pass
                     return
                 elif time <= shop_open:
-                    await interaction.respond(content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
+                    await interaction.respond(
+                        content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
                     return
             elif check == 0:
                 await interaction.respond(content=check)
@@ -277,7 +279,8 @@ class SelfServeCommand(commands.Cog):
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         elif time <= shop_open:
-            await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00', mention_author=False)
+            await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00',
+                            mention_author=False)
 
     @commands.command(name='status')
     async def status_command(self, ctx):
@@ -306,7 +309,6 @@ class SelfServeCommand(commands.Cog):
         else:
             await ctx.reply(content='⚠ Error, your account ID not found!')
 
-
     @commands.command(name='get_ip')
     async def get_ip_commands(self, ctx):
         await ctx.send(
@@ -326,7 +328,6 @@ class SelfServeCommand(commands.Cog):
             '\nกดรับ ไอพีและรหัสได้จากปุ่มด้านล่าง',
             components=[Button(style=ButtonStyle.red, label='Get IP/PWD', emoji='💻', custom_id='get_ip')]
         )
-
 
 
 def setup(bot):
