@@ -17,6 +17,16 @@ class HelpCommands(commands.Cog):
         em.add_field(name='server information', value='server_infor, reg_id, get_ip, server, selfserve', inline=False)
         await ctx.send(embed=em)
 
+    @help.command(name='bank')
+    async def bank(self, ctx):
+        em = discord.Embed(
+            title='Bank',
+            description='แสดงข้อมูล Member Bank Statement',
+            color=discord.Colour.orange()
+        )
+        em.add_field(name='**Syntax**', value='!bank')
+        await ctx.send(embed=em)
+
 
 def setup(bot):
     bot.add_cog(HelpCommands(bot))
