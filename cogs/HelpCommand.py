@@ -13,7 +13,8 @@ class HelpCommands(commands.Cog):
             description='Use !help <command> for extended information on a command.',
             color=discord.Colour.orange(),
         )
-        em.add_field(name='Moderation', value='bank,dmbank,status,daily')
+        em.add_field(name='Transaction', value='bank, dmbank, status, daily')
+        em.add_field(name='server information', value='server_infor, reg_id, get_ip, server, selfserve')
         await ctx.send(embed=em)
 
 

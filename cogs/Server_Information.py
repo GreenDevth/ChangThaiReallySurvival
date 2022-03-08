@@ -67,7 +67,9 @@ class ServerInformation(commands.Cog):
                             length = len(a_string)
                             if length != 17:
                                 print(length != 17)
-                                await interaction.channel.send(f'{member.mention} : 📢 รูปแบบสตรีมไอดีของคุณไม่ถูกต้องกรุณาลองใหม่อีกครั้ง', delete_after=3)
+                                await interaction.channel.send(
+                                    f'{member.mention} : 📢 รูปแบบสตรีมไอดีของคุณไม่ถูกต้องกรุณาลองใหม่อีกครั้ง',
+                                    delete_after=3)
                                 await msg.delete()
                             else:
                                 update_steam_id(member.id, msg.content)
@@ -85,8 +87,9 @@ class ServerInformation(commands.Cog):
                             await interaction.channel.send('oh no.', delete_after=3)
                             await msg.delete()
                     except asyncio.TimeoutError:
-                        await interaction.send( f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป กรุณาลงทะเบียนใหม่อีกครั้ง')
-            
+                        await interaction.send(f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป '
+                                               f'กรุณาลงทะเบียนใหม่อีกครั้ง')
+
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
         await ctx.send(
