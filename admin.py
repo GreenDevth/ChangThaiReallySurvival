@@ -19,10 +19,15 @@ class Administrator(commands.Cog):
     #         activity=discord.Activity(type=discord.ActivityType.playing, name='SCUM')
     #     )
     @commands.command(name='clear')
-    @commands.has_permissions(manage_role=True)
+    @commands.has_permissions(manage_roles=True)
     async def clear_command(self, ctx, amount: int):
         await ctx.reply(f'**{amount}** message has been deleted.', mention_author=False)
         await ctx.channel.purge(limit=amount + 2)
+
+    @clear_command.error
+    async def clear_command_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('Only for Admin')
 
     @commands.Cog.listener()
     async def on_message(self, message):
