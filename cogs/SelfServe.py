@@ -165,7 +165,6 @@ class SelfServeCommand(commands.Cog):
             return
         return
 
-
     @commands.command(name='selfserve')
     @commands.has_permissions(manage_roles=True)
     async def selfserve_command(self, ctx):
