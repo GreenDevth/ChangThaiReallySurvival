@@ -58,119 +58,113 @@ class SelfServeCommand(commands.Cog):
         time = now.strftime("%H:%M:%S")
         shop_open = "18:00:00"
 
-        role = interaction.guild.get_role(921269377402290187)
-        if role in member.role:
-
-            if store_btn == 'server':
-                response = requests.get("https://api.battlemetrics.com/servers/13458708", headers=head)
-                res_text = response.text
-                json.loads(res_text)
-                json_obj = response.json()
-                scum_server = json_obj['data']['attributes']['name']
-                scum_ip = json_obj['data']['attributes']['ip']
-                scum_port = json_obj['data']['attributes']['port']
-                scum_player = json_obj['data']['attributes']['players']
-                scum_player_max = json_obj['data']['attributes']['maxPlayers']
-                scum_rank = json_obj['data']['attributes']['rank']
-                scum_status = json_obj['data']['attributes']['status']
-                scum_time = json_obj['data']['attributes']['details']['time']
-                scum_version = json_obj['data']['attributes']['details']['version']
+        if store_btn == 'server':
+            response = requests.get("https://api.battlemetrics.com/servers/13458708", headers=head)
+            res_text = response.text
+            json.loads(res_text)
+            json_obj = response.json()
+            scum_server = json_obj['data']['attributes']['name']
+            scum_ip = json_obj['data']['attributes']['ip']
+            scum_port = json_obj['data']['attributes']['port']
+            scum_player = json_obj['data']['attributes']['players']
+            scum_player_max = json_obj['data']['attributes']['maxPlayers']
+            scum_rank = json_obj['data']['attributes']['rank']
+            scum_status = json_obj['data']['attributes']['status']
+            scum_time = json_obj['data']['attributes']['details']['time']
+            scum_version = json_obj['data']['attributes']['details']['version']
+            await interaction.respond(
+                content=f"```\nServer: {scum_server} "
+                        f"\nIP: {scum_ip}:{scum_port} "
+                        f"\nStatus: {scum_status} "
+                        f"\nTime in Game: {scum_time} "
+                        f"\nPlayers: {scum_player}/{scum_player_max} "
+                        f"\nRanking: #{scum_rank} "
+                        f"\nGame version: {scum_version}\n "
+                        f"\nServer Restarts Every 6 hours "
+                        f"\nDay 3.8 hours, Night 1 hours\n```",
+            )
+        elif store_btn == 'bankstatement':
+            check = players_exists(member.id)
+            if check == 1:
+                player = players(member.id)
+                coins = "${:,d}".format(player[5])
                 await interaction.respond(
-                    content=f"```\nServer: {scum_server} "
-                            f"\nIP: {scum_ip}:{scum_port} "
-                            f"\nStatus: {scum_status} "
-                            f"\nTime in Game: {scum_time} "
-                            f"\nPlayers: {scum_player}/{scum_player_max} "
-                            f"\nRanking: #{scum_rank} "
-                            f"\nGame version: {scum_version}\n "
-                            f"\nServer Restarts Every 6 hours "
-                            f"\nDay 3.8 hours, Night 1 hours\n```",
+                    content=f'Account name : {player[1]}\n'
+                            f'Bank ID : {player[4]}\n'
+                            f'Bank Balance : {coins}'
                 )
-            elif store_btn == 'bankstatement':
-                check = players_exists(member.id)
-                if check == 1:
-                    player = players(member.id)
-                    coins = "${:,d}".format(player[5])
-                    await interaction.respond(
-                        content=f'Account name : {player[1]}\n'
-                                f'Bank ID : {player[4]}\n'
-                                f'Bank Balance : {coins}'
-                    )
-                else:
-                    await interaction.respond(content='⚠ Error, your account ID not found!')
+            else:
+                await interaction.respond(content='⚠ Error, your account ID not found!')
 
-            elif store_btn == 'dailypack':
-                check = players_exists(member.id)
-                if check == 1:
-                    if shop_open <= time:
-                        player = players(member.id)
-                        daily_pack = player[8]
-                        if daily_pack == 1:
-                            package_name = "dailypack"
-                            code = random.randint(9, 99999)
-                            order_number = f'order{code}'
-                            await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
-                            add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                            queue = check_queue()
-                            order = in_order(player[2])
-                            update_daily_pack(player[2])
-                            await cmd_channel.send(
-                                f'{member.mention}'
-                                f'```Order number {order_number} delivery in progress from {order}/{queue}```'
-                            )
-                            await run_cmd_channel.send('!checkout {}'.format(order_number))
-                            return
-                        elif daily_pack == 0:
-                            message = '⚠ Error, Wait for get daily pack tomorrow.'
-                            await interaction.respond(content=message)
-                            return
-                        else:
-                            pass
+        elif store_btn == 'dailypack':
+            check = players_exists(member.id)
+            if check == 1:
+                if shop_open <= time:
+                    player = players(member.id)
+                    daily_pack = player[8]
+                    if daily_pack == 1:
+                        package_name = "dailypack"
+                        code = random.randint(9, 99999)
+                        order_number = f'order{code}'
+                        await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
+                        add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                        queue = check_queue()
+                        order = in_order(player[2])
+                        update_daily_pack(player[2])
+                        await cmd_channel.send(
+                            f'{member.mention}'
+                            f'```Order number {order_number} delivery in progress from {order}/{queue}```'
+                        )
+                        await run_cmd_channel.send('!checkout {}'.format(order_number))
                         return
-                    elif time <= shop_open:
-                        await interaction.respond(
-                            content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
+                    elif daily_pack == 0:
+                        message = '⚠ Error, Wait for get daily pack tomorrow.'
+                        await interaction.respond(content=message)
                         return
-                elif check == 0:
-                    await interaction.respond(content=check)
+                    else:
+                        pass
                     return
-                return
-
-            elif store_btn == "status":
-                check = players_exists(member.id)
-                if check == 1:
-                    player = players(member.id)
-                    coins = "${:,d}".format(player[5])
-                    created_at = member.created_at.strftime("%b %d, %Y")
-                    joined_at = member.joined_at.strftime("%b %d, %Y")
+                elif time <= shop_open:
                     await interaction.respond(
-                        content="```css\nYOU INFORMATION\n"
-                                "=========================================================\n"
-                                f"Discord Name : '{player[1]}'\n"
-                                f"Discord ID : {player[2]}\n"
-                                f"Steam ID : {player[3]}\n"
-                                f"Bank ID : {player[4]}\n"
-                                f"Bank Balance : {coins}\n"
-                                f"Level : {player[6]}\n"
-                                f"Exp : {player[7]}\n"
-                                f"Join server at : '{joined_at}'\n"
-                                "=========================================================\n"
-                                "\n```"
-                    )
-                else:
-                    await interaction.respond(content='⚠ Error, your account ID not found!')
-
-            elif store_btn == 'get_ip':
-                await interaction.edit_origin(
-                    components=[Button(style=ButtonStyle.red, label='Get IP/PWD', emoji='💻', custom_id='get_ip')]
-                )
-                await discord.DMChannel.send(member, 'ไอพีเซิร์ฟ : **143.244.33.48:7102**  รหัสผ่าน : **28702**')
+                        content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
+                    return
+            elif check == 0:
+                await interaction.respond(content=check)
                 return
             return
 
-        else:
-            await interaction.respond(
-                content='You have not verified your membership. Please visit <#950952899519868978>')
+        elif store_btn == "status":
+            check = players_exists(member.id)
+            if check == 1:
+                player = players(member.id)
+                coins = "${:,d}".format(player[5])
+                created_at = member.created_at.strftime("%b %d, %Y")
+                joined_at = member.joined_at.strftime("%b %d, %Y")
+                await interaction.respond(
+                    content="```css\nYOU INFORMATION\n"
+                            "=========================================================\n"
+                            f"Discord Name : '{player[1]}'\n"
+                            f"Discord ID : {player[2]}\n"
+                            f"Steam ID : {player[3]}\n"
+                            f"Bank ID : {player[4]}\n"
+                            f"Bank Balance : {coins}\n"
+                            f"Level : {player[6]}\n"
+                            f"Exp : {player[7]}\n"
+                            f"Join server at : '{joined_at}'\n"
+                            "=========================================================\n"
+                            "\n```"
+                )
+            else:
+                await interaction.respond(content='⚠ Error, your account ID not found!')
+
+        elif store_btn == 'get_ip':
+            await interaction.edit_origin(
+                components=[Button(style=ButtonStyle.red, label='Get IP/PWD', emoji='💻', custom_id='get_ip')]
+            )
+            await discord.DMChannel.send(member, 'ไอพีเซิร์ฟ : **143.244.33.48:7102**  รหัสผ่าน : **28702**')
+            return
+        return
+
 
     @commands.command(name='selfserve')
     @commands.has_permissions(manage_roles=True)
