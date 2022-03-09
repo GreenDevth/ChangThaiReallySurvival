@@ -181,7 +181,7 @@ class Administrator(commands.Cog):
     async def reset_daily_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('⚠ This commands only used in Admin role.')
-    
+
     @commands.command(name='clear')
     @commands.has_permissions(manage_roles=True)
     async def clear_command(self, ctx, number: int):
@@ -198,6 +198,7 @@ class Administrator(commands.Cog):
             message = "Something went wrong whlie running the commands"
 
         await ctx.reply(message, mention_author=False)
+
 
 def setup(bot):
     bot.add_cog(Administrator(bot))

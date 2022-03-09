@@ -10,6 +10,7 @@ class ServerInformation(commands.Cog):
         self.bot = bot
 
     @commands.command(name='server_info')
+    @commands.has_permissions(manage_roles=True)
     async def server_info_command(self, ctx):
         await ctx.send(
             file=discord.File('./img/info/info.png'),
