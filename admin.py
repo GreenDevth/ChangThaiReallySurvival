@@ -18,6 +18,11 @@ class Administrator(commands.Cog):
     #         status=discord.Status.online,
     #         activity=discord.Activity(type=discord.ActivityType.playing, name='SCUM')
     #     )
+    @commands.command(name='clear')
+    @commands.has_permissions(manage_role=True)
+    async def clear_command(self, ctx, amount: int):
+        await ctx.reply(f'**{amount}** message has been deleted.', mention_author=False)
+        await ctx.channel.purge(limit=amount + 2)
 
     @commands.Cog.listener()
     async def on_message(self, message):
