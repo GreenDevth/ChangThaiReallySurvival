@@ -28,6 +28,11 @@ class Administrator(commands.Cog):
     async def clear_command_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('Only for Admin')
+            return
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.reply('Missing Amount of clear')
+            return
+
 
     @commands.Cog.listener()
     async def on_message(self, message):
