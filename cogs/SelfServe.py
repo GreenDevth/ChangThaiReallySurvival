@@ -259,7 +259,7 @@ class SelfServeCommand(commands.Cog):
     @commands.has_role("Verify Members")
     async def dmbank_command(self, ctx):
         cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
-        if cmd_channel == ctx.channel.id or ctx.author.guild_permissions.administrator:
+        if ctx.channel.id != 925559937323659274 or ctx.author.guild_permissions.administrator:
             member = ctx.author
             check = players_exists(ctx.author.id)
             if check == 1:
