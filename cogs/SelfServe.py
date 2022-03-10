@@ -189,7 +189,7 @@ class SelfServeCommand(commands.Cog):
     @commands.command(name='server')
     @commands.has_role("Verify Members")
     async def server_command(self, ctx):
-        cmd_channel = self.bot.get_channel(925559937323659274)
+        cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
         response = requests.get("https://api.battlemetrics.com/servers/13458708", headers=head)
         res_text = response.text
         json.loads(res_text)
@@ -230,7 +230,7 @@ class SelfServeCommand(commands.Cog):
     @commands.command(name='bank')
     @commands.has_role("Verify Members")
     async def bank_command(self, ctx):
-        cmd_channel = self.bot.get_channel(925559937323659274)
+        cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
         if cmd_channel == ctx.channel.id or ctx.author.guild_permissions.administrator:
             check = players_exists(ctx.author.id)
             if check == 1:
@@ -258,7 +258,7 @@ class SelfServeCommand(commands.Cog):
     @commands.command(name='dmbank')
     @commands.has_role("Verify Members")
     async def dmbank_command(self, ctx):
-        cmd_channel = self.bot.get_channel(925559937323659274)
+        cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
         if cmd_channel == ctx.channel.id or ctx.author.guild_permissions.administrator:
             member = ctx.author
             check = players_exists(ctx.author.id)
@@ -287,7 +287,7 @@ class SelfServeCommand(commands.Cog):
     @commands.command(name='daily')
     @commands.has_role("Verify Members")
     async def daily_command(self, ctx):
-        cmd_channel = self.bot.get_channel(925559937323659274)
+        cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
         if cmd_channel == ctx.channel.id or ctx.author.guild_permissions.administrator:
             member = ctx.author
             cmd_channel = self.bot.get_channel(925559937323659274)
@@ -335,7 +335,7 @@ class SelfServeCommand(commands.Cog):
     @commands.command(name='status')
     @commands.has_role("Verify Members")
     async def status_command(self, ctx):
-        cmd_channel = self.bot.get_channel(925559937323659274)
+        cmd_channel = discord.utils.get(self.bot.get_all_channels(), id=925559937323659274)
         if cmd_channel == ctx.channel.id or ctx.author.guild_permissions.administrator:
             member = ctx.author
             check = players_exists(member.id)
