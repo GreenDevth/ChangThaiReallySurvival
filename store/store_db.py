@@ -4,11 +4,11 @@ from database.db_config import read_db_config
 db = read_db_config()
 
 
-def get_data(package_name):
+def get_data(itemid):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('SELECT package_data FROM scum_package WHERE package_name = %s', (package_name,))
+        cur.execute('SELECT spawner_code FROM scum_items WHERE item_id = %s', (itemid,))
         row = cur.fetchone()
         while row is not None:
             return row
@@ -22,7 +22,7 @@ def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         sql = 'INSERT INTO scum_shopping_cart(discord_id, discord_name, steam_id, order_number, ' \
-              'package_name) VALUES (%s,%s,%s,%s,%s)'
+              'item_id) VALUES (%s,%s,%s,%s,%s)'
         cur.execute(sql, (discord_id, discord_name, steam_id, product_code, package_name,))
         print('Insert new order name {}'.format(product_code))
         conn.commit()

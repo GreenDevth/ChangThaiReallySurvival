@@ -203,7 +203,7 @@ class SelfServeCommand(commands.Cog):
         scum_status = json_obj['data']['attributes']['status']
         scum_time = json_obj['data']['attributes']['details']['time']
         scum_version = json_obj['data']['attributes']['details']['version']
- 
+
         await ctx.reply(
             "```============================================="
             f"\nServer: {scum_server} "
@@ -218,7 +218,6 @@ class SelfServeCommand(commands.Cog):
             f"=============================================```",
             mention_author=False
         )
-
 
     @server_command.error
     async def server_command_error(self, ctx, error):
@@ -245,7 +244,6 @@ class SelfServeCommand(commands.Cog):
         else:
             await ctx.reply('⚠ Error, your account ID not found!')
 
-
     @bank_command.error
     async def bank_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRole):
@@ -271,7 +269,6 @@ class SelfServeCommand(commands.Cog):
                             mention_author=False)
         else:
             await ctx.reply('⚠ Error, your account ID not found!')
-
 
     @dmbank_command.error
     async def dmbank_command_error(self, ctx, error):
@@ -317,7 +314,6 @@ class SelfServeCommand(commands.Cog):
             await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00',
                             mention_author=False)
 
-
     @daily_command.error
     async def daily_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRole):
@@ -352,7 +348,6 @@ class SelfServeCommand(commands.Cog):
             )
         else:
             await ctx.reply(content='⚠ Error, your account ID not found!')
-
 
     @status_command.error
     async def status_command_error(self, ctx, error):
