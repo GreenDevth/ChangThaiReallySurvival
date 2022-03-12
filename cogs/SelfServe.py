@@ -103,7 +103,7 @@ class SelfServeCommand(commands.Cog):
                     player = players(member.id)
                     daily_pack = player[8]
                     if daily_pack == 1:
-                        package_name = "dailypack"
+                        package_name = 16
                         code = random.randint(9, 99999)
                         order_number = f'order{code}'
                         await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
@@ -291,7 +291,7 @@ class SelfServeCommand(commands.Cog):
                 player = players(ctx.author.id)
                 daily_pack = player[8]
                 if daily_pack == 1:
-                    package_name = "dailypack"
+                    package_name = 16
                     code = random.randint(9, 999999)
                     order_number = f'order{code}'
                     await ctx.reply(
