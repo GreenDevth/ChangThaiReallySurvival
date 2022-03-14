@@ -16,9 +16,9 @@ class ServerInformation(commands.Cog):
             file=discord.File('./img/info/info.png'),
         )
         await ctx.send(
-            '**ChangThai℠ Really Survival** เซิร์ฟเวอร์ที่มีที่เน้นให้ผู้เล่น\n'
+            '**ChangThai℠ Really Survival** เซิร์ฟเวอร์ที่เน้นให้ผู้เล่น\n'
             'ได้เข้าถึงความเป็นเกมส์เอาชีวิตรอดอย่างแท้จริงจากระบบ\n'
-            'AI ของเกมส์ เน้นให้ผู้เล่นต่อสู้กับระบบ Ai ของเกมส์ ต่อสู้\n'
+            'Ai ของเกมส์ เน้นให้ผู้เล่นต่อสู้กับระบบ Ai และกลุ่มผู้เล่น เพื่อ\n'
             'แย่งชิงฐานที่มั่น ทรัพยากร และสิ่งอำนวยความสะดวกต่าง ๆ'
         )
         await ctx.send(file=discord.File('./img/info/setting.png'))
