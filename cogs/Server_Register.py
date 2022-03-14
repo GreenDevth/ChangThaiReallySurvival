@@ -8,6 +8,7 @@ class PlayerRegister(commands.Cog):
     @commands.command(name='reg')
     async def player_reg_command(self, ctx, steam_id: int):
         await ctx.reply('Register Successfully..')
+
     @player_reg_command.error
     async def player_reg_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
