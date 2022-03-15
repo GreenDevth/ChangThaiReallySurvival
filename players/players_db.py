@@ -154,3 +154,20 @@ def exclusive_count():
             return res[0]
     except Error as e:
         print(e)
+
+
+def exclusive_update(discordid):
+    conn = None
+    arg = "exclusive"
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET MEMBER = %s WHERE DISCORD_ID = %s', (arg, discordid,))
+        conn.commit()
+        print('Update successfully...')
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()

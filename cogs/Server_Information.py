@@ -2,7 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
-from players.players_db import update_steam_id, steam_check
+from players.players_db import update_steam_id, steam_check, exclusive_count, exclusive_update
 
 
 class ServerInformation(commands.Cog):
@@ -52,9 +52,22 @@ class ServerInformation(commands.Cog):
         member = interaction.author
         btn = interaction.component.custom_id
         message = None
+        if btn == 'exclusive_count':
+            count = exclusive_count()
+            await interaction.edit_origin(
+                components=[
+                    [
+                        Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER',
+                               emoji='📝', custom_id='exclusive'),
+                        Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
+                               emoji='📜', custom_id='exclusive_count')
+                    ]
+                ]
+            )
         if btn == 'exclusive':
             steamd_id = steam_check(member.id)
             if steamd_id is not None:
+                exclusive_update(member.id)
                 message = 'คุณได้สมัครเข้าร่วม Exclusive Members ไว้เรียบร้อย'
             elif steamd_id is None:
                 message = 'ไม่พบข้อมูล steam id ของคุณในระบบ กรุณาลงทะเบียน steam id ให้เรียบร้อย'
@@ -119,12 +132,15 @@ class ServerInformation(commands.Cog):
 
     @commands.command(name='exclusive')
     async def exclusive_command(self, ctx):
+        count = exclusive_count()
         await ctx.send(
             file=discord.File('./img/exclusive.png'),
             components=[
                 [
-                    Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER', emoji='📝', custom_id='exclusive'),
-                    Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}', emoji='📜', custom_id='exclusive_count')
+                    Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER',
+                           emoji='📝', custom_id='exclusive'),
+                    Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
+                           emoji='📜', custom_id='exclusive_count')
                 ]
             ]
         )
