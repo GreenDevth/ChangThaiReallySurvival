@@ -51,6 +51,16 @@ class ServerInformation(commands.Cog):
     async def on_button_click(self, interaction):
         member = interaction.author
         btn = interaction.component.custom_id
+        message = None
+        if btn == 'exclusive':
+            steamd_id = steam_check(member.id)
+            if steamd_id is not None:
+                message = 'คุณได้สมัครเข้าร่วม Exclusive Members ไว้เรียบร้อย'
+            elif steamd_id is None:
+                message = 'ไม่พบข้อมูล steam id ของคุณในระบบ กรุณาลงทะเบียน steam id ให้เรียบร้อย'
+            await interaction.respond(content=message)
+            return
+
         if btn == 'new_player':
             steam_id = steam_check(member.id)
             if steam_id is not None:
@@ -106,6 +116,13 @@ class ServerInformation(commands.Cog):
             ]
         )
         await ctx.message.delete()
+
+    @commands.command(name='exclusive')
+    async def exclusive_command(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/exclusive.png'),
+            components=[Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER', emoji='🎟', custom_id='exclusive')]
+        )
 
 
 def setup(bot):
