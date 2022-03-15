@@ -68,7 +68,21 @@ class ServerInformation(commands.Cog):
             steamd_id = steam_check(member.id)
             if steamd_id is not None:
                 exclusive_update(member.id)
+                count = exclusive_count()
+                await interaction.edit_origin(
+                    components=[
+                        [
+                            Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER',
+                                   emoji='📝', custom_id='exclusive'),
+                            Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
+                                   emoji='📜', custom_id='exclusive_count')
+                        ]
+                    ]
+                )
                 message = 'คุณได้สมัครเข้าร่วม Exclusive Members ไว้เรียบร้อย'
+                await discord.DMChannel.send(member, message)
+                return
+
             elif steamd_id is None:
                 message = 'ไม่พบข้อมูล steam id ของคุณในระบบ กรุณาลงทะเบียน steam id ให้เรียบร้อย'
             await interaction.respond(content=message)
