@@ -57,7 +57,7 @@ class ServerInformation(commands.Cog):
             await interaction.edit_origin(
                 components=[
                     [
-                        Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER',
+                        Button(style=ButtonStyle.green, label='EXCLUSIVE REGISTER',
                                emoji='📝', custom_id='exclusive'),
                         Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
                                emoji='📜', custom_id='exclusive_count')
@@ -72,7 +72,7 @@ class ServerInformation(commands.Cog):
                 await interaction.edit_origin(
                     components=[
                         [
-                            Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER',
+                            Button(style=ButtonStyle.green, label='EXCLUSIVE REGISTER',
                                    emoji='📝', custom_id='exclusive'),
                             Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
                                    emoji='📜', custom_id='exclusive_count')
