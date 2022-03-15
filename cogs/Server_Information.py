@@ -121,7 +121,12 @@ class ServerInformation(commands.Cog):
     async def exclusive_command(self, ctx):
         await ctx.send(
             file=discord.File('./img/exclusive.png'),
-            components=[Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER', emoji='🎟', custom_id='exclusive')]
+            components=[
+                [
+                    Button(style=ButtonStyle.green, label='EXCLUSIVE MEMBER REGISTER', emoji='📝', custom_id='exclusive'),
+                    Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}', emoji='📜', custom_id='exclusive_count')
+                ]
+            ]
         )
 
 

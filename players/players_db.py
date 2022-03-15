@@ -140,3 +140,17 @@ def update_steam_id(discord_id, steam_id):
     finally:
         if conn.is_connected():
             conn.close()
+
+
+def exclusive_count():
+    arg = "exclusive"
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT COUNT(MEMBER) FROM scum_players WHERE MEMBER = %s', (arg,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+    except Error as e:
+        print(e)
