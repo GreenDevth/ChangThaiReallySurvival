@@ -165,9 +165,9 @@ class ServerInformation(commands.Cog):
     @commands.command(name='gift')
     async def gift_command(self, ctx):
         await ctx.send(
-            file=discord.File('./img/gift_07.png'),
+            file=discord.File('./img/gift.png'),
             components=[
-                Button(style=ButtonStyle.green, label='กดรับกิ๊ฟของขวัญ', emoji='🎁', custom_id='get_gift')
+                Button(style=ButtonStyle.gray, label='GET FREE GIFT', emoji='🎁', custom_id='get_gift')
             ]
         )
 
