@@ -56,7 +56,7 @@ class SelfServeCommand(commands.Cog):
         run_cmd_channel = self.bot.get_channel(927796274676260944)
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
-        shop_open = "18:00:00"
+        shop_open = "10:00:00"
 
         if store_btn == 'server':
             response = requests.get("https://api.battlemetrics.com/servers/13458708", headers=head)
@@ -285,7 +285,7 @@ class SelfServeCommand(commands.Cog):
         run_cmd_channel = self.bot.get_channel(927796274676260944)
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
-        shop_open = "18:00:00"
+        shop_open = "10:00:00"
         if shop_open <= time:
             check = players_exists(ctx.author.id)
             if check == 1:
