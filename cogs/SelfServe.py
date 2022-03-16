@@ -127,7 +127,7 @@ class SelfServeCommand(commands.Cog):
                     return
                 elif time <= shop_open:
                     await interaction.respond(
-                        content='Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00')
+                        content='Drone is still unavailable : the shop has been closed, Shop open is 10:00 - 24:00')
                     return
             elif check == 0:
                 await interaction.respond(content=check)
@@ -312,7 +312,7 @@ class SelfServeCommand(commands.Cog):
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         elif time <= shop_open:
-            await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 18:00 - 24:00',
+            await ctx.reply('Drone is still unavailable : the shop has been closed, Shop open is 10:00 - 24:00',
                             mention_author=False)
 
     @daily_command.error
