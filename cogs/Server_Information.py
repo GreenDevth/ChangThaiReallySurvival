@@ -129,6 +129,9 @@ class ServerInformation(commands.Cog):
                         await interaction.send(f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป '
                                                f'กรุณาลงทะเบียนใหม่อีกครั้ง')
 
+        if btn == 'get_gift':
+            await interaction.respond(content=btn)
+
     @commands.command(name='reg_id')
     async def reg_id_command(self, ctx):
         await ctx.send(
@@ -156,6 +159,15 @@ class ServerInformation(commands.Cog):
                     Button(style=ButtonStyle.blue, label='EXCLUSIVE MEMBER : {}'.format(count),
                            emoji='📜', custom_id='exclusive_count')
                 ]
+            ]
+        )
+
+    @commands.command(name='gift')
+    async def gift_command(self, ctx):
+        await ctx.send(
+            file=discord.File('./img/gift_07.png'),
+            components=[
+                Button(style=ButtonStyle.green, label='GET YOUR GIFT', emoji='🎁', custom_id='get_gift')
             ]
         )
 
