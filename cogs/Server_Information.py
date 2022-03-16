@@ -85,8 +85,8 @@ class ServerInformation(commands.Cog):
 
             elif steamd_id is None:
                 message = 'ไม่พบข้อมูล steam id ของคุณในระบบ กรุณาลงทะเบียน steam id ให้เรียบร้อย'
-            await interaction.respond(content=message)
-            return
+                await interaction.respond(content=message)
+                return
 
         if btn == 'new_player':
             steam_id = steam_check(member.id)
