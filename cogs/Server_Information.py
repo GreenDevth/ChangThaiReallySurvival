@@ -167,7 +167,7 @@ class ServerInformation(commands.Cog):
         await ctx.send(
             file=discord.File('./img/gift_07.png'),
             components=[
-                Button(style=ButtonStyle.green, label='GET YOUR GIFT', emoji='🎁', custom_id='get_gift')
+                Button(style=ButtonStyle.green, label='กดรับกิ๊ฟของขวัญ', emoji='🎁', custom_id='get_gift')
             ]
         )
 
