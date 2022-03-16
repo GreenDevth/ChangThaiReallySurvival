@@ -66,6 +66,7 @@ class ServerInformation(commands.Cog):
             )
         if btn == 'exclusive':
             steamd_id = steam_check(member.id)
+            exclusive_channel = self.bot.get_channel(953622566105387048)
             if steamd_id is not None:
                 exclusive_update(member.id)
                 count = exclusive_count()
@@ -81,6 +82,16 @@ class ServerInformation(commands.Cog):
                 )
                 message = 'คุณได้สมัครเข้าร่วม Exclusive Members ไว้เรียบร้อย'
                 await discord.DMChannel.send(member, message)
+                await exclusive_channel.send(
+                    "📃 **Exclusive Member {}**\n"
+                    "```=====================================\n"
+                    "ผู้ลงทะเบียน : {}\n"
+                    "ดิสคอร์ดไอดี : {}\n"
+                    "สตรีมไอดี : {}\n"
+                    "สถานะ : ลงทะเบียนเรียบร้อย ✅\n"
+                    "=====================================\n```".format(member.display_name, member.display_name,
+                                                                        member.id, steamd_id)
+                )
                 return
 
             elif steamd_id is None:
