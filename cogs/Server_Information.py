@@ -24,6 +24,7 @@ class ServerInformation(commands.Cog):
         await ctx.send(file=discord.File('./img/info/setting.png'))
         await ctx.send(
             '- เซิร์ฟสิงคโปร์ ปิงเริ่มต้นที่ 39 อัตราดรอป 3 เท่า\n'
+            '- เปิดใช้งานเซิร์ฟแบบ Exclusive Members\n'
             '- ปิดการแสดงแผนที่ จำกัดตี้เพียง 2 คนที่ค่า int Lvl5  \n'
             '- ยานพาหนะดรอปตามจำนวนสี ที่เหลือ trade เอากับ NPC\n'
             '- มีระบบ Guild มีภารกิจ เพิ่มช่องทางในการหาเงินให้ผู้เล่น\n'
