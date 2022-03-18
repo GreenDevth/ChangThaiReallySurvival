@@ -75,7 +75,6 @@ class SelfServeCommand(commands.Cog):
             await interaction.respond(
                 content=f"```\nServer: {scum_server} "
                         f"\nIP: {scum_ip}:{scum_port} "
-                        f"\nPassWord : 14032022 "
                         f"\nStatus: {scum_status} "
                         f"\nTime in Game: {scum_time} "
                         f"\nPlayers: {scum_player}/{scum_player_max} "
@@ -162,7 +161,7 @@ class SelfServeCommand(commands.Cog):
             await interaction.edit_origin(
                 components=[Button(style=ButtonStyle.red, label='Get IP/PWD', emoji='💻', custom_id='get_ip')]
             )
-            await discord.DMChannel.send(member, 'ไอพีเซิร์ฟ : **143.244.33.48:7102**  รหัสผ่าน : **14032022**')
+            await discord.DMChannel.send(member, 'ไอพีเซิร์ฟ : **143.244.33.48:7102**  รหัสผ่าน : **ไม่มีรหัสผ่าน**')
             return
         return
 
@@ -364,8 +363,8 @@ class SelfServeCommand(commands.Cog):
         )
         await ctx.send(
             '⚔ **ChangThai℠ Really survival**\n'
-            '\nกดรับ ไอพีและรหัสได้จากปุ่มด้านล่าง',
-            components=[Button(style=ButtonStyle.red, label='รับ IP/PWD', emoji='💻', custom_id='get_ip')]
+            '\nกดรับ ไอพีได้จากปุ่มด้านล่าง',
+            components=[Button(style=ButtonStyle.red, label='รับ IP', emoji='💻', custom_id='get_ip')]
         )
 
     @get_ip_commands.error
