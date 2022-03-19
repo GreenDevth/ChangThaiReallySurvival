@@ -1,7 +1,7 @@
 import asyncio
 
 from discord.ext import commands
-
+from discord_components import Button, ButtonStyle
 from bank.bank_db import update_coins
 from players.players_db import players_exists, players, reset_daily_pack
 
@@ -198,6 +198,42 @@ class Administrator(commands.Cog):
             message = "Something went wrong whlie running the commands"
 
         await ctx.reply(message, mention_author=False)
+
+    @commands.Cog.listener()
+    async def on_button_click(self, interaction):
+        count_list = ["unload_count", "load_count", "reload_count"]
+        count_btn = interaction.component.custom_id
+
+        if count_btn in count_list:
+            ext = "CountMembers"
+            if count_btn == "unload_count":
+                self.bot.unload_extension(f'extension.{ext}')
+                await interaction.respond(content=f'Unload {ext} successfull..')
+                return
+            elif count_btn == "load_count":
+                self.bot.load_extension(f'extension.{ext}')
+                await interaction.respond(content=f'Load {ext} successfull..')
+                return
+            elif count_btn == "reload_count":
+                self.bot.unload_extension(f'extension.{ext}')
+                await asyncio.sleep(0.1)
+                self.bot.load_extension(f'extension.{ext}')
+                await interaction.respond(content=f'Load {ext} successfull..')
+                return
+            return
+
+    @commands.command(name='load_button')
+    async def load_button(self, ctx):
+        await ctx.send(
+            'Manage Count Member Extension',
+            components=[
+                [
+                    Button(style=ButtonStyle.red, label='Unload', emoji='🧈', custom_id='unload_count'),
+                    Button(style=ButtonStyle.green, label='Load', emoji='🧈', custom_id='load_count'),
+                    Button(style=ButtonStyle.blue, label='Reload', emoji='🧈', custom_id='reload_count')
+                ]
+            ]
+        )
 
 
 def setup(bot):
