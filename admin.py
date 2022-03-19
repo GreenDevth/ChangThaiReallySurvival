@@ -207,17 +207,16 @@ class Administrator(commands.Cog):
         if count_btn in count_list:
             ext = "CountMembers"
             if count_btn == "unload_count":
-                self.bot.unload_extension(f'extension.{ext}')
+                self.bot.unload_extension(f'cogs.{ext}')
                 await interaction.respond(content=f'Unload {ext} successfull..')
                 return
             elif count_btn == "load_count":
-                self.bot.load_extension(f'extension.{ext}')
+                self.bot.load_extension(f'cogs.{ext}')
                 await interaction.respond(content=f'Load {ext} successfull..')
                 return
             elif count_btn == "reload_count":
-                self.bot.unload_extension(f'extension.{ext}')
-                await asyncio.sleep(0.1)
-                self.bot.load_extension(f'extension.{ext}')
+                self.bot.unload_extension(f'cogs.{ext}')
+                self.bot.load_extension(f'cogs.{ext}')
                 await interaction.respond(content=f'Load {ext} successfull..')
                 return
             return
