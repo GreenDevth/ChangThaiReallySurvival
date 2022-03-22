@@ -210,15 +210,18 @@ class Administrator(commands.Cog):
             ext = "CountMembers"
             if count_btn == "unload_count":
                 self.bot.unload_extension(f'cogs.{ext}')
+                print(f'Unload {ext} Successfully...')
                 await interaction.respond(content=f'Unload {ext} successfull..')
                 return
             elif count_btn == "load_count":
                 self.bot.load_extension(f'cogs.{ext}')
+                print('Load {ext} Successfully...')
                 await interaction.respond(content=f'Load {ext} successfull..')
                 return
             elif count_btn == "reload_count":
                 self.bot.unload_extension(f'cogs.{ext}')
                 self.bot.load_extension(f'cogs.{ext}')
+                print('Re-load {ext} Successfully...')
                 await interaction.respond(content=f'Load {ext} successfull..')
                 return
             return
