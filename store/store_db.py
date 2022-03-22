@@ -104,6 +104,8 @@ def get_item_id(item):
         while row is not None:
             res = list(row)
             return res[0]
+    except Error as e:
+        print(e)
 
 def reset_stock(item, amount):
     conn = None
@@ -116,7 +118,7 @@ def reset_stock(item, amount):
         cur.close()
         msg = f"Update stock of {item} amount {amount} successfully.."
         return msg.strip()
-        
+
     except Error as e:
         print(e)
     finally:
