@@ -257,13 +257,8 @@ class Administrator(commands.Cog):
     @commands.has_permissions(manage_roles=True)
     async def item_lists_command(self, ctx):
         item = list_item()
-        embed = discord.Embed(
-            title='List All items for sale',
-            colour=discord.Colour.green()
-        )
         for x in item:
-            embed.add_field(name=f"Title : {x[0]}", value=f"Commands : {x[1]}", inline=False)
-        await ctx.send(embed=embed)
+            await ctx.send(f"**{x[0]}**```ini\n'{x[1]}'\n```")
 
 
 def setup(bot):
