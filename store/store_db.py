@@ -94,3 +94,32 @@ def get_command(package_name):
             return res[0]
     except Error as e:
         print(e)
+
+def get_item_id(item):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT item_id FROM scum_items WHERE commands = %s', (item,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+
+def reset_stock(item, amount):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_items SET in_stock = %s WHERE commands = %s', (amount, item,))
+        conn.commands()
+        print(f'Update {item} to {amount} successfully..')
+        cur.close()
+        msg = f"Update stock of {item} amount {amount} successfully.."
+        return msg.strip()
+        
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+            return False
