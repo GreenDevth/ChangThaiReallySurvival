@@ -262,7 +262,7 @@ class Administrator(commands.Cog):
             colour=discord.Colour.green()
         )
         for x in item:
-            embed.add_field(name=x[0], value=x[1], inline=False)
+            embed.add_field(name=f"Title : {x[0]}", value=f"Commands : {x[1]}", inline=False)
         await ctx.send(embed=embed)
 
 
