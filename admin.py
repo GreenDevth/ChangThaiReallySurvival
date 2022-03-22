@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from bank.bank_db import update_coins
 from players.players_db import players_exists, players, reset_daily_pack
+from store.store_db import reset_stock, get_item_id
 
 
 class Administrator(commands.Cog):
@@ -233,6 +234,23 @@ class Administrator(commands.Cog):
                 ]
             ]
         )
+
+    @commands.command(name='update')
+    @commands.has_permissions(manage_roles=True)
+    async def upate_command(self, ctx, arg: str, arg1: int):
+        if get_item_id(arg) is not None:
+            update = reset_stock(arg, arg1)
+            await ctx.reply(update, mention_author=False)
+        elif get_item_id(arg) is None:
+            await ctx.reply(f'ไม่พบข้อมูล item {arg} ในระบบ', mention_author=False)
+
+    @upate_command.error
+    async def update_comman_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('Only on Admin commands', mention_author=False)
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.reply('Missing a required argument {}'.format(error.param))
 
 
 def setup(bot):
