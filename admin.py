@@ -255,8 +255,8 @@ class Administrator(commands.Cog):
 
     @commands.command(name='item_lists')
     @commands.has_permissions(manage_roles=True)
-    async def item_lists_command(self, ctx):
-        item = list_item()
+    async def item_lists_command(self, ctx, arg: str):
+        item = list_item(arg)
         embed = discord.Embed(
             title='List All items for sale',
             colour=discord.Colour.green()

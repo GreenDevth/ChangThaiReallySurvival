@@ -129,11 +129,11 @@ def reset_stock(item, amount):
             return False
 
 
-def list_item():
+def list_item(pack_name):
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('select title,commands from scum_items order by item_id')
+        cur.execute('select title,commands from scum_items where pack = %s', (pack_name,))
         row = cur.fetchall()
         while row is not None:
             res = list(row)
