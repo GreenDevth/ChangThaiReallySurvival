@@ -133,7 +133,7 @@ def list_item():
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('select title,commands from scum_items order by item_id')
+        cur.execute('select title,commands,in_stock from scum_items order by item_id')
         row = cur.fetchall()
         while row is not None:
             res = list(row)

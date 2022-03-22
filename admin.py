@@ -258,7 +258,10 @@ class Administrator(commands.Cog):
     async def item_lists_command(self, ctx):
         item = list_item()
         for x in item:
-            await ctx.send(f"**{x[0]}**```ini\n'{x[1]}'\n```")
+            await ctx.send(
+                '```ini\n'
+                f'Title: {x[0]}, Commands : {x[1]}, Stock Holder : [{x[2]}]```'
+            )
 
 
 def setup(bot):
