@@ -1,5 +1,6 @@
 import asyncio
 
+import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from bank.bank_db import update_coins
@@ -256,8 +257,13 @@ class Administrator(commands.Cog):
     @commands.has_permissions(manage_roles=True)
     async def item_lists_command(self, ctx):
         item = list_item()
+        embed=discord.Embed(
+            title='List All items for sale',
+            colour=discord.Colour.green()
+        )
         for x in item:
-            await ctx.send("```ini\n{}\n```".format(x[0]))
+            embed.add_field(name=item[0], value=item[1])
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
