@@ -9,7 +9,7 @@ class ServerBank(commands.Cog):
 
     @commands.command(name='transfer')
     async def transfer_command(self, ctx, bank_id: int, amount: int):
-        guild = self.bot.get_guild(908064048728387604)
+        guild = self.bot.get_guild(866926077246832680)
         member = ctx.author
         member_bank_id = players_discord(ctx.author.id)
         payer_coins = players_bank(member_bank_id)
