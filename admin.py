@@ -260,7 +260,7 @@ class Administrator(commands.Cog):
         for x in item:
             await ctx.send(
                 '```ini\n'
-                f'Title: {x[0]}, Commands : {x[1]}, Stock Holder : [{x[2]}]```'
+                f'Title: [{x[0]}], Commands : [{x[1]}], Stock Holder : [{x[2]}]```'
             )
 
 
