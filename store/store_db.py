@@ -95,6 +95,7 @@ def get_command(package_name):
     except Error as e:
         print(e)
 
+
 def get_item_id(item):
     try:
         conn = MySQLConnection(**db)
@@ -106,6 +107,7 @@ def get_item_id(item):
             return res[0]
     except Error as e:
         print(e)
+
 
 def reset_stock(item, amount):
     conn = None
@@ -125,3 +127,16 @@ def reset_stock(item, amount):
         if conn.is_connected():
             conn.close()
             return False
+
+
+def list_item():
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('select commands from scum_items order by item_id')
+        row = cur.fetchall()
+        while row is not None:
+            res = list(row)
+            return res
+    except Error as e:
+        print(e)

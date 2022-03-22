@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from bank.bank_db import update_coins
 from players.players_db import players_exists, players, reset_daily_pack
-from store.store_db import reset_stock, get_item_id
+from store.store_db import reset_stock, get_item_id, list_item
 
 
 class Administrator(commands.Cog):
@@ -251,6 +251,13 @@ class Administrator(commands.Cog):
 
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.reply('Missing a required argument {}'.format(error.param))
+
+    @commands.command(name='item_lists')
+    @commands.has_permissions(manage_roles=True)
+    async def item_lists_command(self, ctx):
+        item = list_item()
+        for x in item:
+            await ctx.send("```ini\n{}\n```".format(x))
 
 
 def setup(bot):
