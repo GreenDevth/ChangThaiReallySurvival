@@ -48,6 +48,34 @@ def players_exists(discord_id):
         print(e)
 
 
+def player_check(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('select count(*) from scum_players where DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        res = list(row)
+        return res[0]
+    except Error as e:
+        print(e)
+
+
+def get_player_coins(discord_id):
+    if player_check(discord_id) == 1:
+        try:
+            conn = MySQLConnection(**db)
+            cur = conn.cursor()
+            cur.execute('SELECT COINS FROM scum_players WHERE DISCORD_ID = %s', (discord_id,))
+            row = cur.fetchone()
+            res = list(row)
+            return res[0]
+        except Error as e:
+            print(e)
+    else:
+        msg = "ไม่พบข้อมูลผู้ใช้งานในระบบ"
+        return msg.strip()
+
+
 def players(discord_id):
     try:
         conn = MySQLConnection(**db)
@@ -171,3 +199,33 @@ def exclusive_update(discordid):
     finally:
         if conn.is_connected():
             conn.close()
+
+
+def get_discord_id(by_bank_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('select DISCORD_ID from scum_players WHERE GUILD_ID = %s', (by_bank_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+    except Error as e:
+        print(e)
+
+
+def update_player_coins(discord_id, amount):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET COINS = %s WHERE DISCORD_ID = %s', (amount, discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+            return None
+

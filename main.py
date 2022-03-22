@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord_components import DiscordComponents
 from config.Auth import get_token, load_cogs
 
-token = get_token(10)
+token = get_token(10)  # old 10 new 12
 
 intents = discord.Intents.default()
 intents.members = True
