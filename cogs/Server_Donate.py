@@ -53,8 +53,9 @@ class ServerDonation(commands.Cog):
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_image(url=image)
             embed.add_field(name='ผู้สนับสนุนเซิร์ฟ', value=member.mention, inline=False)
+            build_image = self.bot.get_channel(956064173941456926)
             send = await donate.send(embed=embed) # add send image to channel
-            await donate.send(image,f"{member.name}")
+            await build_image.send(image)
             await send.add_reaction("😍")
             await msg.delete()
 
