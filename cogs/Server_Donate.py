@@ -53,7 +53,7 @@ class ServerDonation(commands.Cog):
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_image(url=image)
             embed.add_field(name='ผู้สนับสนุนเซิร์ฟ', value=member.mention, inline=False)
-            send = await donate.send(embed=embed)
+            send = await donate.send(image, embed=embed)
             await send.add_reaction("😍")
             await msg.delete()
 
