@@ -1,8 +1,8 @@
+from datetime import datetime
+
 import discord
-import asyncio
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
-from datetime import datetime
 
 now = datetime.now()
 create_at = now.strftime("%H:%M:%S")
@@ -54,10 +54,10 @@ class ServerDonation(commands.Cog):
             embed.set_image(url=image)
             embed.add_field(name='ผู้สนับสนุนเซิร์ฟ', value=member.mention, inline=False)
             build_image = self.bot.get_channel(956064173941456926)
-            send = await donate.send(embed=embed) # add send image to channel
+            send = await donate.send(embed=embed)  # add send image to channel
             await build_image.send(image)
             await send.add_reaction("😍")
-            await msg.delete()
+            # await msg.delete()
 
     @commands.command(name='donate')
     async def donate_command(self, ctx):
