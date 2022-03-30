@@ -8,7 +8,7 @@ from discord.ext import commands
 from discord_components import Button, ButtonStyle
 
 from config.Auth import get_token
-from players.players_db import players_exists, players, update_daily_pack, player_check
+from players.players_db import players_exists, players, update_daily_pack
 from store.store_db import add_to_cart, in_order, check_queue
 
 token = get_token(2)
@@ -118,7 +118,7 @@ class SelfServeCommand(commands.Cog):
             if check == 1:
                 player = players(member.id)
                 coins = "${:,d}".format(player[5])
-                created_at = member.created_at.strftime("%b %d, %Y")
+                member.created_at.strftime("%b %d, %Y")
                 joined_at = member.joined_at.strftime("%b %d, %Y")
                 await interaction.respond(
                     content="```css\nYOU INFORMATION\n"
@@ -309,7 +309,7 @@ class SelfServeCommand(commands.Cog):
         if check == 1:
             player = players(member.id)
             coins = "${:,d}".format(player[5])
-            created_at = member.created_at.strftime("%b %d, %Y")
+            member.created_at.strftime("%b %d, %Y")
             joined_at = member.joined_at.strftime("%b %d, %Y")
             await ctx.reply(
                 content="```YOU INFORMATION\n"
@@ -351,8 +351,6 @@ class SelfServeCommand(commands.Cog):
     async def get_ip_commands_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.reply('⚠ Error, **For Admin only**')
-
-
 
 
 def setup(bot):
