@@ -54,14 +54,9 @@ def check_queue():
         dbconfig = read_db_config()
         conn = MySQLConnection(**dbconfig)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(*) FROM scum_shopping_cart')
+        cur.execute('SELECT COUNT(*) FROM scum_shopping_cart ORDER BY order_id limit 1')
         row = cur.fetchone()
-        while row is None:
-            queue = 0
-            return queue
-        while row is not None:
-            queue = list(row)
-            return queue[0]
+        return row[0]
     except Error as e:
         print(e)
 

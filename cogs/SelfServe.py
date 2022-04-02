@@ -307,11 +307,11 @@ class SelfServeCommand(commands.Cog):
                         await cmd_channel.send(
                             f'{member.mention}\n'
                             f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
-                            f' จำนวนคิวจัดส่ง {order}/{queue}```')
+                            f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
                         await run_channel.send(checkout)
                         print('run command to send package to player')
                         return
-                    else:
+                    elif count == 1:
                         queue = check_queue()
                         await cmd_channel.send(
                             f'{member.mention}\n'
