@@ -9,7 +9,7 @@ from discord_components import Button, ButtonStyle
 
 from config.Auth import get_token
 from players.players_db import players_exists, players, update_daily_pack
-from store.store_db import add_to_cart, in_order, check_queue
+from store.store_db import add_to_cart, in_order, check_queue, get_title
 
 token = get_token(2)
 url = get_token(3)
@@ -77,6 +77,8 @@ class SelfServeCommand(commands.Cog):
                 await interaction.respond(content='⚠ Error, your account ID not found!')
 
         elif store_btn == 'dailypack':
+            run_channel = self.bot.get_channel(927796274676260944)
+            cmd_channel = self.bot.get_channel(925559937323659274)
             check = players_exists(member.id)
             if check == 1:
                 if shop_open <= time:
@@ -84,19 +86,34 @@ class SelfServeCommand(commands.Cog):
                     daily_pack = player[8]
                     if daily_pack == 1:
                         package_name = 16
+                        title = get_title(package_name)
                         code = random.randint(9, 99999)
-                        order_number = f'order{code}'
-                        await interaction.respond(content='Daily Pack is being delevered to {}'.format(player[3]))
+                        order_number = f'#{code}'
+                        message = f"กรุณารอสักครู่ ระบบกำลังเตรียมจัดส่ง **{title}** ให้คุณ"
+                        await interaction.respond(content=message)
                         add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                        queue = check_queue()
+
                         order = in_order(player[2])
                         update_daily_pack(player[2])
-                        await cmd_channel.send(
-                            f'{member.mention}'
-                            f'```Order number {order_number} delivery in progress from {order}/{queue}```'
-                        )
-                        await run_cmd_channel.send('!checkout {}'.format(order_number))
-                        return
+                        count = check_queue()
+                        if count == 0:
+                            queue = check_queue()
+                            checkout = '--run {}'.format(order_number)
+                            await cmd_channel.send(
+                                f'{member.mention}\n'
+                                f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                                f' จำนวนคิวจัดส่ง {order}/{queue}```')
+                            await run_channel.send(checkout)
+                            print('run command to send package to player')
+                            return
+                        else:
+                            queue = check_queue()
+                            await cmd_channel.send(
+                                f'{member.mention}\n'
+                                f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                                f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
+                            print('send information without run command')
+                            return
                     elif daily_pack == 0:
                         message = '⚠ Error, Wait for get daily pack tomorrow.'
                         await interaction.respond(content=message)
@@ -260,8 +277,8 @@ class SelfServeCommand(commands.Cog):
     @commands.has_role("Verify Members")
     async def daily_command(self, ctx):
         member = ctx.author
+        run_channel = self.bot.get_channel(927796274676260944)
         cmd_channel = self.bot.get_channel(925559937323659274)
-        run_cmd_channel = self.bot.get_channel(927796274676260944)
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
         shop_open = "10:00:00"
@@ -272,22 +289,38 @@ class SelfServeCommand(commands.Cog):
                 daily_pack = player[8]
                 if daily_pack == 1:
                     package_name = 16
-                    code = random.randint(9, 999999)
-                    order_number = f'order{code}'
+                    title = get_title(package_name)
+                    code = random.randint(9, 99999)
+                    order_number = f'#{code}'
+                    message = f"กรุณารอสักครู่ ระบบกำลังเตรียมจัดส่ง **{title}** ให้คุณ"
                     await ctx.reply(
-                        'Daily Pack is being delivered to {}'.format(player[3]), mention_author=False
+                        message, mention_author=False
                     )
                     add_to_cart(player[2], player[1], player[3], order_number, package_name)
-                    queue = check_queue()
+
                     order = in_order(player[2])
                     update_daily_pack(player[2])
-                    await cmd_channel.send(
-                        f'{member.mention}'
-                        f'```Order number {order_number} delivery in progress from {order}/{queue}```'
-                    )
-                    await run_cmd_channel.send('!checkout {}'.format(order_number))
+                    count = check_queue()
+                    if count == 0:
+                        queue = check_queue()
+                        checkout = '--run {}'.format(order_number)
+                        await cmd_channel.send(
+                            f'{member.mention}\n'
+                            f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                            f' จำนวนคิวจัดส่ง {order}/{queue}```')
+                        await run_channel.send(checkout)
+                        print('run command to send package to player')
+                        return
+                    else:
+                        queue = check_queue()
+                        await cmd_channel.send(
+                            f'{member.mention}\n'
+                            f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                            f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
+                        print('send information without run command')
+                        return
                 else:
-                    await ctx.reply('⚠ Error, Wait for get daily pack tomorrow.')
+                    await ctx.reply('⚠ Error, รอรับ Daily Pack ใหม่ ในวันพรุ่งนี้.')
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         elif time <= shop_open:

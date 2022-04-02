@@ -16,6 +16,19 @@ def get_data(itemid):
         print(e)
 
 
+def get_title(itemid):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('SELECT title FROM scum_items where item_id = %s', (itemid,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+    except Error as e:
+        print(e)
+
+
 def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
     conn = None
     try:
