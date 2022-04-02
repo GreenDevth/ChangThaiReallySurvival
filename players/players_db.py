@@ -155,13 +155,13 @@ def steam_check(discord_id):
         print(e)
 
 
-def update_steam_id(discord_id, steam_id, activate_code):
+def update_steam_id(discord_id, steam_id, activatecode):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
         cur.execute('UPDATE scum_players SET STEAM_ID = %s, ACTIVATE_CODE = %s WHERE DISCORD_ID = %s',
-                    (steam_id, discord_id, activate_code,))
+                    (steam_id, activatecode, discord_id,))
         conn.commit()
         cur.close()
     except Error as e:
