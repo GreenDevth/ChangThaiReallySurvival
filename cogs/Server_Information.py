@@ -113,9 +113,11 @@ class ServerInformation(commands.Cog):
                             else:
                                 activatecode = generate_code(6)
                                 update_steam_id(member.id, msg.content, activatecode)
+                                await interaction.channel.send(
+                                    "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival ", delete_after=5)
                                 await discord.DMChannel.send(
-                                    member,
-                                    "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival "
+                                    member, f"โปรดใช้รหัส **{activatecode}** นี้สำหรับปลดล๊อคการใช้งานเซิร์ฟเวอร์",
+                                    file=discord.File('./img/activate_code.png')
                                 )
                                 verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
                                 role = discord.utils.get(interaction.guild.roles, name='joiner')
