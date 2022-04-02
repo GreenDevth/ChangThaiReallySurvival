@@ -282,17 +282,23 @@ class SelfServeCommand(commands.Cog):
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
         shop_open = "10:00:00"
-        count = check_queue()
+
         if shop_open <= time:
             check = players_exists(ctx.author.id)
             if check == 1:
                 player = players(ctx.author.id)
                 daily_pack = player[8]
                 if daily_pack == 1:
+                    package_name = 16
+                    title = get_title(package_name)
+                    code = random.randint(9, 99999)
+                    order_number = f'#{code}'
+                    add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                    count = check_queue()
                     if count != 0:
-                        await ctx.reply(f'{count}')
+                        await ctx.reply('not run command')
                     else:
-                        await ctx.reply('number = 0')
+                        await ctx.reply('number = 0 run commands')
                     # package_name = 16
                     # title = get_title(package_name)
                     # code = random.randint(9, 99999)
