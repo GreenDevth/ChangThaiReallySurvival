@@ -106,7 +106,7 @@ class SelfServeCommand(commands.Cog):
                             await run_channel.send(checkout)
                             print('run command to send package to player')
                             return
-                        else:
+                        elif count == 1:
                             queue = check_queue()
                             await cmd_channel.send(
                                 f'{member.mention}\n'
