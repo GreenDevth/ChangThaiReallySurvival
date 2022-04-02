@@ -155,12 +155,13 @@ def steam_check(discord_id):
         print(e)
 
 
-def update_steam_id(discord_id, steam_id):
+def update_steam_id(discord_id, steam_id, activate_code):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('UPDATE scum_players SET STEAM_ID = %s WHERE DISCORD_ID = %s', (steam_id, discord_id,))
+        cur.execute('UPDATE scum_players SET STEAM_ID = %s, ACTIVATE_CODE = %s WHERE DISCORD_ID = %s',
+                    (steam_id, discord_id, activate_code,))
         conn.commit()
         cur.close()
     except Error as e:
@@ -168,6 +169,37 @@ def update_steam_id(discord_id, steam_id):
     finally:
         if conn.is_connected():
             conn.close()
+
+
+def activate_code_check(discord_id):
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('select ACTIVATE_CODE from scum_players WHERE DISCORD_ID = %s', (discord_id,))
+        row = cur.fetchone()
+        while row is not None:
+            res = list(row)
+            return res[0]
+        return None
+    except Error as e:
+        print(e)
+
+
+def activate_code(activatecode):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute('UPDATE scum_players SET VERIFY = 1 WHERE ACTIVATE_CODE = %s', (activatecode,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+    finally:
+        if conn.is_connected():
+            conn.close()
+            msg = "Activate successfull: โปรดรอข้อความตอบกลับจากเซิร์ฟอีกครั้ง เมื่อระบบทำการปรับสถานะของคุณเรียบร้อยแล้ว"
+            return msg.strip()
 
 
 def exclusive_count():
@@ -228,4 +260,3 @@ def update_player_coins(discord_id, amount):
         if conn.is_connected():
             conn.close()
             return None
-
