@@ -91,7 +91,7 @@ class ServerInformation(commands.Cog):
         if btn == 'new_player':
             steam_id = steam_check(member.id)
             if steam_id is not None:
-                await interaction.respond(content=f'{steam_id}')
+                await interaction.respond(content=f'คุณได้ลงทะเบียนไว้เรียบร้อยแล้ว สตรีมไอดีของคุณคือ **{steam_id}**')
             else:
                 await interaction.send(f'{member.mention} : 📝 โปรดระบุ SteamID ของคุณเพื่อดำเนินการลงทะเบียน')
                 while True:
