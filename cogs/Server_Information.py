@@ -163,31 +163,36 @@ class ServerInformation(commands.Cog):
         if btn == 'activate_player':
             steamd_id = steam_check(member.id)
             if steamd_id is not None:
-                await interaction.respond(
-                    content='กรุณากรอกรหัสที่ได้จากเซิร์ฟเวอร์'
-                )
-
-                msg = await self.bot.wait_for(
-                    'message',
-                    check=lambda r: r.author == interaction.author and r.channel == interaction.channel)
-                check = activate_code_check(member.id)
-                if msg.content == check:
-                    exclusive_channel = self.bot.get_channel(953622566105387048)
-                    result = activate_code(check)
-                    await exclusive_channel.send(
-                        f"📃 **Exclusive Member {member.display_name}**\n"
-                        "```=====================================\n"
-                        f"ผู้ลงทะเบียน : {member.mention}\n"
-                        f"ดิสคอร์ดไอดี : {member.id}\n"
-                        f"สตรีมไอดี : {steamd_id}\n"
-                        "สถานะ : ลงทะเบียนเรียบร้อย ✅\n"
-                        "=====================================\n```"
+                check = verify_check(member.id)
+                if check != 0:
+                    await interaction.respond(content="คุณได้ปลดล๊อคการใช้งาน Exclusive Member เรียบร้อยแล้ว")
+                elif check == 0:
+                    await interaction.respond(
+                        content='กรุณากรอกรหัสที่ได้จากเซิร์ฟเวอร์'
                     )
-                    await discord.DMChannel.send(member, result, delete_after=5)
-                    await msg.delete()
-                else:
-                    await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง', delete_after=5)
-                    await msg.delete()
+
+                    msg = await self.bot.wait_for(
+                        'message',
+                        check=lambda r: r.author == interaction.author and r.channel == interaction.channel)
+                    check = activate_code_check(member.id)
+                    if msg.content == check:
+                        exclusive_channel = self.bot.get_channel(953622566105387048)
+                        result = activate_code(check)
+                        await exclusive_channel.send(
+                            f"📃 **Exclusive Member {member.mention}**\n"
+                            "```=====================================\n"
+                            f"ผู้ลงทะเบียน : {member.display_name}\n"
+                            f"ดิสคอร์ดไอดี : {member.id}\n"
+                            f"สตรีมไอดี : {steamd_id}\n"
+                            "สถานะ : ลงทะเบียนเรียบร้อย ✅\n"
+                            "=====================================\n```"
+                        )
+                        await interaction.channel.send(f"{member.mention}\n{result}", delete_after=5)
+                        await discord.DMChannel.send(member, result)
+                        await msg.delete()
+                    else:
+                        await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง', delete_after=5)
+                        await msg.delete()
 
             else:
                 await interaction.respond(
