@@ -282,43 +282,48 @@ class SelfServeCommand(commands.Cog):
         now = datetime.now()
         time = now.strftime("%H:%M:%S")
         shop_open = "10:00:00"
+        count = check_queue()
         if shop_open <= time:
             check = players_exists(ctx.author.id)
             if check == 1:
                 player = players(ctx.author.id)
                 daily_pack = player[8]
                 if daily_pack == 1:
-                    package_name = 16
-                    title = get_title(package_name)
-                    code = random.randint(9, 99999)
-                    order_number = f'#{code}'
-                    message = f"กรุณารอสักครู่ ระบบกำลังเตรียมจัดส่ง **{title}** ให้คุณ"
-                    await ctx.reply(
-                        message, mention_author=False
-                    )
-                    add_to_cart(player[2], player[1], player[3], order_number, package_name)
-
-                    order = in_order(player[2])
-                    update_daily_pack(player[2])
-                    count = check_queue()
-                    if count == 0:
-                        queue = check_queue()
-                        checkout = '--run {}'.format(order_number)
-                        await cmd_channel.send(
-                            f'{member.mention}\n'
-                            f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
-                            f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
-                        await run_channel.send(checkout)
-                        print('run command to send package to player')
-                        return
-                    elif count == 1:
-                        queue = check_queue()
-                        await cmd_channel.send(
-                            f'{member.mention}\n'
-                            f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
-                            f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
-                        print('send information without run command')
-                        return
+                    if count != 0:
+                        await ctx.reply(f'{count}')
+                    else:
+                        await ctx.reply('number = 0')
+                    # package_name = 16
+                    # title = get_title(package_name)
+                    # code = random.randint(9, 99999)
+                    # order_number = f'#{code}'
+                    # message = f"กรุณารอสักครู่ ระบบกำลังเตรียมจัดส่ง **{title}** ให้คุณ"
+                    # await ctx.reply(
+                    #     message, mention_author=False
+                    # )
+                    # add_to_cart(player[2], player[1], player[3], order_number, package_name)
+                    #
+                    # order = in_order(player[2])
+                    # update_daily_pack(player[2])
+                    # count = check_queue()
+                    # if count == 0:
+                    #     queue = check_queue()
+                    #     checkout = '--run {}'.format(order_number)
+                    #     await cmd_channel.send(
+                    #         f'{member.mention}\n'
+                    #         f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                    #         f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
+                    #     await run_channel.send(checkout)
+                    #     print('run command to send package to player')
+                    #     return
+                    # elif count == 1:
+                    #     queue = check_queue()
+                    #     await cmd_channel.send(
+                    #         f'{member.mention}\n'
+                    #         f'```เลขที่ใบสั่งซื้อ {order_number} อยู่ระหว่างการจัดส่ง'
+                    #         f' จำนวนคิวจัดส่ง {order}/{queue}```', mention_author=False)
+                    #     print('send information without run command')
+                    #     return
                 else:
                     await ctx.reply('⚠ Error, รอรับ Daily Pack ใหม่ ในวันพรุ่งนี้.')
             else:

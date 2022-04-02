@@ -49,14 +49,13 @@ def add_to_cart(discord_id, discord_name, steam_id, product_code, package_name):
 
 
 def check_queue():
-    """Count Queue for Shopping Cart"""
     try:
-        dbconfig = read_db_config()
-        conn = MySQLConnection(**dbconfig)
+        conn = MySQLConnection(**db)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(*) FROM scum_shopping_cart ORDER BY order_id limit 1')
+        cur.execute("select count(*) from scum_shopping_cart")
         row = cur.fetchone()
-        return row[0]
+        res = list(row)
+        return res[0]
     except Error as e:
         print(e)
 
