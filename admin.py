@@ -267,6 +267,13 @@ class Administrator(commands.Cog):
             )
         await ctx.message.delete()
 
+    @commands.command(name='verify')
+    @commands.has_permissions(manage_roles=True)
+    async def verify_command(self, ctx, member: discord.Member):
+        await ctx.reply(f'Send Message to {member.display_name} successfully...')
+        await discord.DMChannel.send(member,
+                                     f"สวัสดีครับคุณ {member.display_name} ระบบได้ ทำการปรับสิทธิ์ Exclusive Members ให้คุณเรียบร้อยแล้ว...")
+
 
 def setup(bot):
     bot.add_cog(Administrator(bot))
