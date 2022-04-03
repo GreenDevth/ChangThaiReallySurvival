@@ -177,7 +177,7 @@ class Administrator(commands.Cog):
     async def reset_daily_command(self, ctx):
         reset_daily_pack()
         print('Reset Daily Pack status successfully.')
-        await ctx.reply('🍔 Reset all **DailyPack** status successfully.')
+        await ctx.reply('🍔 Reset all **DailyPack** status successfully.', mention_author=False)
 
     @reset_daily_command.error
     async def reset_daily_error(self, ctx, error):
@@ -270,9 +270,17 @@ class Administrator(commands.Cog):
     @commands.command(name='verify')
     @commands.has_permissions(manage_roles=True)
     async def verify_command(self, ctx, member: discord.Member):
-        await ctx.reply(f'Send Message to {member.display_name} successfully...')
+        await ctx.reply(f'Send Message to {member.display_name} successfully...', mention_author=False)
         await discord.DMChannel.send(member,
                                      f"สวัสดีครับคุณ {member.display_name} ระบบได้ ทำการปรับสิทธิ์ Exclusive Members ให้คุณเรียบร้อยแล้ว...")
+
+    @verify_command.error
+    async def verify_comman_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.reply('Only on Admin commands', mention_author=False)
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.reply('Missing a required argument {}'.format(error.param), mention_author=False)
 
 
 def setup(bot):
