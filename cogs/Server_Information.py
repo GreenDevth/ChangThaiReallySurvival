@@ -29,7 +29,6 @@ class ServerInformation(commands.Cog):
             'สัมผัสประสบการณ์สุดกดดัน แบบ Exclusive Members ไป\n'
             'กับ **ChangThai℠ Really Survival** เซิร์ฟเวอร์ที่อัดเน้นไปด้วย\nความเป็นเกมส์เอาชีวิตรอด 100%'
             '\n\nและหากคุณก็เป็นหนึ่งในผู้เล่นที่แสวงหาความยาก ความ\nสมจริง และความเป็น Survival Server อย่างแท้จริง\n**ChangThai℠ Really Survival** จะเป็นเซิร์ฟเวอร์ที่ตอบโจทย์\nความต้องการของคุณได้อย่างแน่นอน'
-            '\n\nโปรดเตรียม Steam ID ไว้สำหรับสมัครใช้งานที่ห้อง\n <#918381749833171005>\n'
         )
 
     @commands.command(name='server_rule')
