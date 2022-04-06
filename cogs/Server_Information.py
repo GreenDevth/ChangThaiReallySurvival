@@ -5,6 +5,7 @@ import asyncio
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from players.players_db import *
+from extension.Manage_Members import ManageMembers
 
 
 def generate_code(length):
@@ -116,7 +117,7 @@ class ServerInformation(commands.Cog):
                                 await interaction.channel.send(
                                     "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival ", delete_after=5)
                                 await discord.DMChannel.send(
-                                    member, f"โปรดใช้รหัส **{activatecode}** นี้สำหรับปลดล๊อคการใช้งานเซิร์ฟเวอร์",
+                                    member, f"รหัสปลดล๊อคของคุณคือ```cs' {activatecode} '```",
                                     file=discord.File('./img/activate_code.png')
                                 )
                                 verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
@@ -239,3 +240,4 @@ class ServerInformation(commands.Cog):
 
 def setup(bot):
     bot.add_cog(ServerInformation(bot))
+    bot.add_cog(ManageMembers(bot))
