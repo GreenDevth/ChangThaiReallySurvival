@@ -127,9 +127,10 @@ class ServerInformation(commands.Cog):
                                     title="รหัสปลดล๊อคสำหรับสมัครใช้งาน Exclusive Membes",
                                     description="กรุณากดที่ปุ่ม ACTIVATE MEMBER และกรอกรหัสปลดล็อค 6 หลัก",
                                 )
-                                embed.add_field(name='รหัสปลดล็อค', value=f"```cs\n'{activatecode}'\n```")
+                                embed.add_field(name='รหัสปลดล็อค', value=f"```cs\n{activatecode}\n```")
+                                embed.add_field(name='ห้องลงทะเบียน', value='<#918381749833171005>')
                                 embed.set_image(
-                                    url="https://cdn.discordapp.com/attachments/894251225237848134/961094953734389830/unknown.png")
+                                    url="https://cdn.discordapp.com/attachments/894251225237848134/961097333876097034/unknown.png")
                                 await discord.DMChannel.send(
                                     member,
                                     embed=embed
