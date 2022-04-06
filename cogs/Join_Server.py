@@ -19,7 +19,7 @@ class WelcomeCommands(commands.Cog):
         # bank_id = str(convert)
         name = str(member.name)
         x = datetime.datetime.now()
-        join_date = x.strftime("%A %B %Y")
+        join_date = x.strftime("%d/%m/%Y %H:%M:%S")
 
         new_players(name, int(member.id), convert, join_date)
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
