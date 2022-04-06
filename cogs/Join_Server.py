@@ -20,9 +20,15 @@ class WelcomeCommands(commands.Cog):
         name = str(member.name)
         new_players(name, int(member.id), convert)
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
+        img = "https://cdn.discordapp.com/attachments/894251225237848134/961091814692118538/hardcord_poster.png"
+        embed = discord.Embed(
+            title='ChangThai℠ Really Survival',
+            description="กรุณาเตรียม สตรีมไอดีของคุณ ไว้สำหรับลงทะเบียนและรับรหัสปลดล็อคจากเซิร์ฟ"
+        )
+        embed.set_image(url=img)
         await discord.DMChannel.send(
             member,
-            "กรุณาเตรียมสตรีมไอดีของคุณไว้สำหรับลงทะเบียนและรับรหัสปลดล็อคจากเซิร์ฟ"
+            embed=embed
         )
 
     @commands.Cog.listener()

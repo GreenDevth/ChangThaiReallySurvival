@@ -29,7 +29,10 @@ class ServerInformation(commands.Cog):
             'สัมผัสประสบการณ์สุดกดดัน แบบ Exclusive Members ไป\n'
             'กับ **ChangThai℠ Really Survival** เซิร์ฟเวอร์ที่อัดเน้นไปด้วย\nความเป็นเกมส์เอาชีวิตรอด 100%'
             '\n\nและหากคุณก็เป็นหนึ่งในผู้เล่นที่แสวงหาความยาก ความ\nสมจริง และความเป็น Survival Server อย่างแท้จริง\n**ChangThai℠ Really Survival** จะเป็นเซิร์ฟเวอร์ที่ตอบโจทย์\nความต้องการของคุณได้อย่างแน่นอน'
-            '\n\nโปรดเตรียม Steam ID ไว้สำหรับสมัครใช้งานที่ห้อง\n <#918381749833171005>\n',
+            '\n\nโปรดเตรียม Steam ID ไว้สำหรับสมัครใช้งานที่ห้อง\n <#918381749833171005>\n'
+        )
+        await ctx.send(
+            file=discord.File('./img/rules_setting.png'),
             components=[
                 [
                     Button(style=ButtonStyle.gray, label='SERVER SETTING', emoji='⚙', custom_id='server_setting'),
@@ -115,10 +118,17 @@ class ServerInformation(commands.Cog):
                                 activatecode = generate_code(6)
                                 update_steam_id(member.id, msg.content, activatecode)
                                 await interaction.channel.send(
-                                    "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival ", delete_after=5)
+                                    "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival ",
+                                    delete_after=5)
+                                embed = discord.Embed(
+                                    title="รหัสปลดล๊อคสำหรับสมัครใช้งาน Exclusive Membes",
+                                    description="กรุณากดที่ปุ่ม ACTIVATE MEMBER และกรอกรหัสปลดล็อค 6 หลัก",
+                                )
+                                embed.add_field(name='รหัสปลดล็อค', value=f"```cs\n'{activatecode}'\n```")
+                                embed.set_image(url="https://cdn.discordapp.com/attachments/894251225237848134/961094953734389830/unknown.png")
                                 await discord.DMChannel.send(
-                                    member, f"กดปุ่มตามวงรีสีแดง ตามตัวอย่างภาพด้านล่างเพื่อกรอกรหัสปลดล็อค\nรหัสปลดล๊อคของคุณคือ```cs\n'{activatecode}'\n```",
-                                    file=discord.File('./img/activate_code.png')
+                                    member,
+                                    embed=embed
                                 )
                                 verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
                                 role = discord.utils.get(interaction.guild.roles, name='joiner')
@@ -192,7 +202,8 @@ class ServerInformation(commands.Cog):
                         await discord.DMChannel.send(member, result)
                         await msg.delete()
                     else:
-                        await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง', delete_after=5)
+                        await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง',
+                                                       delete_after=5)
                         await msg.delete()
 
             else:
