@@ -4,13 +4,13 @@ from database.db_config import read_db_config
 db = read_db_config()
 
 
-def new_players(name, discord, guild):
+def new_players(name, discord, guild, join_date):
     conn = None
     try:
         conn = MySQLConnection(**db)
         cur = conn.cursor()
-        sql = 'INSERT INTO scum_players(DISCORD_NAME, DISCORD_ID, GUILD_ID) VALUES (%s,%s,%s)'
-        cur.execute(sql, (name, discord, guild,))
+        sql = 'INSERT INTO scum_players(DISCORD_NAME, DISCORD_ID, GUILD_ID, CREATE_DATE) VALUES (%s,%s,%s,%s)'
+        cur.execute(sql, (name, discord, guild, join_date))
         conn.commit()
         cur.close()
     except Error as e:

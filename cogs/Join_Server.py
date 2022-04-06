@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+from datetime import  datetime
 from players.players_db import new_players, remove_player
 
 
@@ -18,7 +18,10 @@ class WelcomeCommands(commands.Cog):
         convert = discord_id[:5]
         # bank_id = str(convert)
         name = str(member.name)
-        new_players(name, int(member.id), convert)
+        now = datetime.now()
+        join_date = now.strftime("%H:%M:%S")
+
+        new_players(name, int(member.id), convert, join_date)
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
         img = "https://cdn.discordapp.com/attachments/894251225237848134/961091814692118538/hardcord_poster.png"
         embed = discord.Embed(
