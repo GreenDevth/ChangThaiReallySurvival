@@ -31,6 +31,9 @@ class ServerInformation(commands.Cog):
             '\n\nและหากคุณก็เป็นหนึ่งในผู้เล่นที่แสวงหาความยาก ความ\nสมจริง และความเป็น Survival Server อย่างแท้จริง\n**ChangThai℠ Really Survival** จะเป็นเซิร์ฟเวอร์ที่ตอบโจทย์\nความต้องการของคุณได้อย่างแน่นอน'
             '\n\nโปรดเตรียม Steam ID ไว้สำหรับสมัครใช้งานที่ห้อง\n <#918381749833171005>\n'
         )
+
+    @commands.command(name='server_rule')
+    async def server_rule(self, ctx):
         await ctx.send(
             file=discord.File('./img/rules_setting.png'),
             components=[
@@ -125,7 +128,8 @@ class ServerInformation(commands.Cog):
                                     description="กรุณากดที่ปุ่ม ACTIVATE MEMBER และกรอกรหัสปลดล็อค 6 หลัก",
                                 )
                                 embed.add_field(name='รหัสปลดล็อค', value=f"```cs\n'{activatecode}'\n```")
-                                embed.set_image(url="https://cdn.discordapp.com/attachments/894251225237848134/961094953734389830/unknown.png")
+                                embed.set_image(
+                                    url="https://cdn.discordapp.com/attachments/894251225237848134/961094953734389830/unknown.png")
                                 await discord.DMChannel.send(
                                     member,
                                     embed=embed
