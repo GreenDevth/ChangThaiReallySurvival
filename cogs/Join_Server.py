@@ -22,7 +22,7 @@ class WelcomeCommands(commands.Cog):
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
         await discord.DMChannel.send(
             member,
-            file=discord.File('./img/welcome.png')
+            "กรุณาเตรียมสตรีมไอดีของคุณไว้สำหรับลงทะเบียนและรับรหัสปลดล็อคจากเซิร์ฟ"
         )
 
     @commands.Cog.listener()
