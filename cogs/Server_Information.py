@@ -135,10 +135,6 @@ class ServerInformation(commands.Cog):
                                     member,
                                     embed=embed
                                 )
-                                verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
-                                role = discord.utils.get(interaction.guild.roles, name='joiner')
-                                await member.add_roles(verify)
-                                await member.remove_roles(role)
                                 await msg.delete()
                                 return
                         else:
@@ -204,6 +200,10 @@ class ServerInformation(commands.Cog):
                             "=====================================\n```"
                         )
                         await interaction.channel.send(f"{member.mention}\n{result}", delete_after=5)
+                        verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
+                        role = discord.utils.get(interaction.guild.roles, name='joiner')
+                        await member.add_roles(verify)
+                        await member.remove_roles(role)
                         await discord.DMChannel.send(member, result)
                         await msg.delete()
                     else:
