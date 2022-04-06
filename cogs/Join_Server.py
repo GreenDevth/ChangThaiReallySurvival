@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from datetime import datetime
+import datetime
 from players.players_db import new_players, remove_player
 
 
@@ -18,8 +18,8 @@ class WelcomeCommands(commands.Cog):
         convert = discord_id[:5]
         # bank_id = str(convert)
         name = str(member.name)
-        now = datetime.now()
-        join_date = now.strftime("%H:%M:%S")
+        x = datetime.datetime.now()
+        join_date = x.strftime("%A %B %Y")
 
         new_players(name, int(member.id), convert, join_date)
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
