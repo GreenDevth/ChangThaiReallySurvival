@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from discord_components import Button, ButtonStyle
 from bank.bank_db import update_coins
-from players.players_db import players_exists, players, reset_daily_pack
+from players.players_db import players_exists, players, reset_daily_pack, update_to_exclusive
 from store.store_db import reset_stock, get_item_id, list_item
 
 
@@ -270,7 +270,8 @@ class Administrator(commands.Cog):
     @commands.command(name='verify')
     @commands.has_permissions(manage_roles=True)
     async def verify_command(self, ctx, member: discord.Member):
-        await ctx.reply(f'Send Message to {member.display_name} successfully...', mention_author=False)
+        result = update_to_exclusive(member.id)
+        await ctx.reply(f'Send Message to {member.display_name} {result}', mention_author=False)
         await discord.DMChannel.send(member,
                                      f"สวัสดีครับคุณ {member.display_name} ระบบได้ ทำการปรับสิทธิ์ Exclusive Members ให้คุณเรียบร้อยแล้ว...")
 
