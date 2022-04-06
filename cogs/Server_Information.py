@@ -117,7 +117,7 @@ class ServerInformation(commands.Cog):
                                 await interaction.channel.send(
                                     "🎉 ยินดีต้อนรับอย่างเป็นทางการสู่สังคม ChangThai℠ Really survival ", delete_after=5)
                                 await discord.DMChannel.send(
-                                    member, f"รหัสปลดล๊อคของคุณคือ```cs' {activatecode} '```",
+                                    member, f"รหัสปลดล๊อคของคุณคือ```cs\n'{activatecode}'\n```",
                                     file=discord.File('./img/activate_code.png')
                                 )
                                 verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
