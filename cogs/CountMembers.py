@@ -13,10 +13,14 @@ url = get_token(3)
 auth = f"{token}"
 head = {'Authorization': 'Brarer' + auth}
 
+response = requests.get('https://api.battlemetrics.com/servers/13458708')
+print(response)
+print(response.json()['data']['attributes']['players'])
+
 
 def get_players():
-    res = requests.get(url, headers=head)
-    player = res.json()['data']['attributes']['players']
+    # res = requests.get(url, headers=head)
+    player = response.json()['data']['attributes']['players']
     return player
 
 
