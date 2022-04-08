@@ -156,7 +156,7 @@ class Administrator(commands.Cog):
                       f'Steam ID: {player[3]}\n' \
                       f'Coins: {player[5]}\n' \
                       f'Level: {player[6]}\n' \
-                      f'Exp: {player[7]}' \
+                      f'Exp: {player[7]}\n' \
                       f'Status : {player[9]}\n' \
                       f'===============================================\n' \
                       f'```'
