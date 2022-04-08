@@ -163,6 +163,7 @@ class Administrator(commands.Cog):
             await ctx.reply(message, mention_author=False)
         else:
             await ctx.reply(f'This **{arg}** could not be found in the database.', mention_author=False)
+        await ctx.message.delete()
 
     @check_command.error
     async def check_command_error(self, ctx: commands.Context, error: commands.CommandError):
