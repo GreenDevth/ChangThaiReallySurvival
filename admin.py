@@ -154,6 +154,9 @@ class Administrator(commands.Cog):
                       f'Discord Name: {player[1]}\n' \
                       f'Discord ID: {player[2]}\n' \
                       f'Steam ID: {player[3]}\n' \
+                      f'Coins: {player[5]}\n' \
+                      f'Level: {player[6]}\n' \
+                      f'Exp: {player[7]}' \
                       f'Status : {player[9]}\n' \
                       f'===============================================\n' \
                       f'```'
