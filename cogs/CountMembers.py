@@ -15,12 +15,19 @@ head = {'Authorization': 'Brarer' + auth}
 
 
 def get_players():
-    # res = requests.get(url, headers=head)
-    response = requests.get('https://api.battlemetrics.com/servers/13458708')
-    print(response)
-    print(response.json()['data']['attributes']['players'])
-    player = response.json()['data']['attributes']['players']
-    return player
+    try:
+        # res = requests.get(url, headers=head)
+        response = requests.get('https://api.battlemetrics.com/servers/13458708')
+        status = response.status_code
+        if status == 200:
+            print(response.json()['data']['attributes']['players'])
+            player = response.json()['data']['attributes']['players']
+            return player
+        else:
+            return 0
+    except Exception as e:
+        print(e)
+        return 0
 
 
 class CountMembers(commands.Cog):
@@ -44,7 +51,7 @@ class CountMembers(commands.Cog):
                 await self.bot.change_presence(
                     status=discord.Status.online,
                     activity=discord.Activity(type=discord.ActivityType.watching, name=f'ผู้รอดชีวิต {player}/20 คน'))
-            await asyncio.sleep(45)
+            await asyncio.sleep(15)
 
 
 def setup(bot):
