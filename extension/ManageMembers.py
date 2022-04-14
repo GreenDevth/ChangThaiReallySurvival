@@ -1,10 +1,10 @@
 import discord
-from discord.ext import commands
 import datetime
-from players.players_db import new_players, remove_player
+from discord.ext import commands
+from database.Member_db import new_player, remove_player
 
 
-class WelcomeCommands(commands.Cog):
+class JoinServer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -15,23 +15,18 @@ class WelcomeCommands(commands.Cog):
         role = discord.utils.get(guild.roles, name='joiner')
         await member.add_roles(role)
         discord_id = str(member.id)
-        convert = discord_id[:5]
-        # bank_id = str(convert)
+        bank_id = discord_id[:5]
         name = str(member.name)
         x = datetime.datetime.now()
         join_date = x.strftime("%d/%m/%Y %H:%M:%S")
 
-        new_players(name, int(member.id), convert, join_date)
+        result = new_player(name, int(member.id), bank_id, join_date)
         await welcome.send(f'{member.mention} : {member.name} ได้เข้าร่วมดิสคอร์สของเราแล้ว')
-        img = "https://cdn.discordapp.com/attachments/894251225237848134/961091814692118538/hardcord_poster.png"
-        embed = discord.Embed(
-            title='ChangThai℠ Really Survival',
-            description="กรุณาเตรียม สตรีมไอดีของคุณ ไว้สำหรับลงทะเบียนและรับรหัสปลดล็อคจากเซิร์ฟ"
-        )
-        embed.set_image(url=img)
+
+        """ Send DM to Joiner member """
         await discord.DMChannel.send(
             member,
-            embed=embed
+            result
         )
 
     @commands.Cog.listener()
@@ -40,7 +35,3 @@ class WelcomeCommands(commands.Cog):
         leave = guild.get_channel(937573869361979422)
         remove_player(member.id)
         await leave.send(f"{member.mention} : {member.name} ได้ออกจากเซิร์ฟของเราแล้ว")
-
-
-def setup(bot):
-    bot.add_cog(WelcomeCommands(bot))

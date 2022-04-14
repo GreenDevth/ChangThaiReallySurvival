@@ -37,7 +37,8 @@ class Administrator(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            await ctx.reply('⚠ Error, Commands not found in system.', mention_author=False)
+            await ctx.reply('⚠ Error, {}'.format(error.args[0]), mention_author=False)
+        await ctx.message.delete()
 
     @commands.command(name='myinfo')
     async def myinfo_command(self, ctx):
