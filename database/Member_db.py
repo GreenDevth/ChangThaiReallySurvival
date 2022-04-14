@@ -141,3 +141,20 @@ def activate_code(activatecode):
             conn.close()
             msg = "Activate successfull: โปรดรอข้อความตอบกลับจากเซิร์ฟอีกครั้ง เมื่อระบบทำการปรับสถานะของคุณเรียบร้อยแล้ว"
             return msg.strip()
+
+def update_to_exclusive(discord_id):
+    conn = None
+    try:
+        conn = MySQLConnection(**db)
+        cur = conn.cursor()
+        cur.execute("UPDATE scum_players SET MEMBER='exclusive' WHERE DISCORD_ID=%s", (discord_id,))
+        conn.commit()
+        cur.close()
+    except Error as e:
+        print(e)
+        return e
+    finally:
+        if conn.is_connected():
+            conn.close()
+            msg = "update successfull"
+            return msg.strip()

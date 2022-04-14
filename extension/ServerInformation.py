@@ -99,7 +99,9 @@ class RegisterMember(commands.Cog):
             if steamd_id is not None:
                 check = verify_check(member.id)
                 if check != 0:
-                    await interaction.respond(content="คุณได้ปลดล๊อคการใช้งาน Exclusive Member เรียบร้อยแล้ว")
+                    await interaction.respond(
+                        file=discord.File('./img/verify.png')
+                    )
                 elif check == 0:
                     await interaction.respond(
                         content='กรุณากรอกรหัสที่ได้จากเซิร์ฟเวอร์'
