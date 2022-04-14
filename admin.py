@@ -34,8 +34,7 @@ class Administrator(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            await ctx.reply('⚠ Error, {}'.format(error.args[0]), mention_author=False)
-        await ctx.message.delete()
+            await ctx.reply('⚠ Error, {}'.format(error.args[0]), mention_author=False, delete_after=10)
 
     @commands.command(name='verify')
     @commands.has_permissions(manage_roles=True)
