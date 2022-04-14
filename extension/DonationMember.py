@@ -159,6 +159,11 @@ class ServerDonation(commands.Cog):
             await discord.DMChannel.send(owner, embed=embed)
             send = await donate.send(embed=embed)
             await send.add_reaction("😍")
+            overwrites = {
+                interaction.guild.default_role: discord.PermissionOverwrite(read_messages=False),
+                member: discord.PermissionOverwrite(read_messages=False)
+            }
+            await interaction.channel.edit(overwrites=overwrites)
 
     @commands.command(name='donate')
     async def donate_command(self, ctx):
