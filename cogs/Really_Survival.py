@@ -3,6 +3,7 @@ from extension.Task import MemberOnlineStatus
 from extension.ManageMembers import JoinServer
 from extension.ServerInformation import ServerInformation, RegisterMember
 from extension.Players_Commands import PlayerCommand
+from extension.DonationMember import ServerDonation
 
 
 class ReallySurvival(commands.Cog):
@@ -21,3 +22,4 @@ def setup(bot):
     bot.add_cog(PlayerCommand(bot))
     bot.add_cog(ServerInformation(bot))
     bot.add_cog(RegisterMember(bot))
+    bot.add_cog(ServerDonation(bot))

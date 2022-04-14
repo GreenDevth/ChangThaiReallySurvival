@@ -44,7 +44,7 @@ class PlayerCommand(commands.Cog):
                 mention_author=False
             )
         else:
-            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False, delete_after=5)
         await ctx.message.delete()
 
     @server_command.error
@@ -85,7 +85,7 @@ class PlayerCommand(commands.Cog):
             else:
                 await ctx.reply(content='⚠ Error, your account ID not found!')
         else:
-            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False, delete_after=5)
         await ctx.message.delete()
 
     @status_command.error
@@ -116,7 +116,7 @@ class PlayerCommand(commands.Cog):
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         else:
-            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False, delete_after=5)
         await ctx.message.delete()
 
     @dmbank_command.error
@@ -147,7 +147,7 @@ class PlayerCommand(commands.Cog):
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
         else:
-            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False, delete_after=5)
         await ctx.message.delete()
 
     @bank_command.error
