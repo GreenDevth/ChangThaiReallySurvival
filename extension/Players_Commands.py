@@ -13,25 +13,21 @@ class PlayerCommand(commands.Cog):
     @commands.command(name='server')
     @commands.has_role("Verify Members")
     async def server_command(self, ctx):
-        guild = self.bot.get_guild(963075291570393138)
-        admin = guild.get_role(963355980459024424)
-        if ctx.channel.id != 925559937323659274 or admin not in ctx.author.roles:
-            await ctx.reply('กรุณาพิมพ์คำสั่งที่ห้อง <#925559937323659274> เท่านั้น', mention_author=False)
-        else:
-            response = requests.get("https://api.battlemetrics.com/servers/13458708")
-            res_text = response.text
-            json.loads(res_text)
-            json_obj = response.json()
-            scum_server = json_obj['data']['attributes']['name']
-            scum_ip = json_obj['data']['attributes']['ip']
-            scum_port = json_obj['data']['attributes']['port']
-            scum_player = json_obj['data']['attributes']['players']
-            scum_player_max = json_obj['data']['attributes']['maxPlayers']
-            scum_rank = json_obj['data']['attributes']['rank']
-            scum_status = json_obj['data']['attributes']['status']
-            scum_time = json_obj['data']['attributes']['details']['time']
-            scum_version = json_obj['data']['attributes']['details']['version']
-
+        response = requests.get("https://api.battlemetrics.com/servers/13458708")
+        res_text = response.text
+        json.loads(res_text)
+        json_obj = response.json()
+        scum_server = json_obj['data']['attributes']['name']
+        scum_ip = json_obj['data']['attributes']['ip']
+        scum_port = json_obj['data']['attributes']['port']
+        scum_player = json_obj['data']['attributes']['players']
+        scum_player_max = json_obj['data']['attributes']['maxPlayers']
+        scum_rank = json_obj['data']['attributes']['rank']
+        scum_status = json_obj['data']['attributes']['status']
+        scum_time = json_obj['data']['attributes']['details']['time']
+        scum_version = json_obj['data']['attributes']['details']['version']
+        role = discord.utils.get(ctx.guild.roles, name="Admin")
+        if ctx.channel.id == 925559937323659274 or role in ctx.author.roles:
             await ctx.reply(
                 "📃 **SERVER INFORMATION DATA**"
                 "```============================================="
@@ -47,6 +43,8 @@ class PlayerCommand(commands.Cog):
                 f"=============================================```",
                 mention_author=False
             )
+        else:
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
         await ctx.message.delete()
 
     @server_command.error
@@ -59,11 +57,8 @@ class PlayerCommand(commands.Cog):
     @commands.command(name='status')
     @commands.has_role("Verify Members")
     async def status_command(self, ctx):
-        guild = self.bot.get_guild(963075291570393138)
-        admin = guild.get_role(963355980459024424)
-        if ctx.channel.id != 925559937323659274 or admin not in ctx.author.roles:
-            await ctx.reply('กรุณาพิมพ์คำสั่งที่ห้อง <#925559937323659274> เท่านั้น', mention_author=False)
-        else:
+        role = discord.utils.get(ctx.guild.roles, name="Admin")
+        if ctx.channel.id == 925559937323659274 or role in ctx.author.roles:
             member = ctx.author
             check = member_check(member.id)
             if check == 1:
@@ -89,7 +84,9 @@ class PlayerCommand(commands.Cog):
                 )
             else:
                 await ctx.reply(content='⚠ Error, your account ID not found!')
-            await ctx.message.delete()
+        else:
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
+        await ctx.message.delete()
 
     @status_command.error
     async def status_command_error(self, ctx, error):
@@ -101,11 +98,8 @@ class PlayerCommand(commands.Cog):
     @commands.command(name='dmbank')
     @commands.has_role("Verify Members")
     async def dmbank_command(self, ctx):
-        guild = self.bot.get_guild(963075291570393138)
-        admin = guild.get_role(963355980459024424)
-        if ctx.channel.id != 925559937323659274 or admin not in ctx.author.roles:
-            await ctx.reply('กรุณาพิมพ์คำสั่งที่ห้อง <#925559937323659274> เท่านั้น', mention_author=False)
-        else:
+        role = discord.utils.get(ctx.guild.roles, name="Admin")
+        if ctx.channel.id == 925559937323659274 or role in ctx.author.roles:
             member = ctx.author
             check = member_check(ctx.author.id)
             if check == 1:
@@ -121,6 +115,8 @@ class PlayerCommand(commands.Cog):
                                 mention_author=False)
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
+        else:
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
         await ctx.message.delete()
 
     @dmbank_command.error
@@ -133,12 +129,8 @@ class PlayerCommand(commands.Cog):
     @commands.command(name='bank')
     @commands.has_role("Verify Members")
     async def bank_command(self, ctx):
-        guild = self.bot.get_guild(963075291570393138)
-        admin = guild.get_role(963355980459024424)
-        if ctx.channel.id != 925559937323659274 or admin not in ctx.author.roles:
-            await ctx.reply('กรุณาพิมพ์คำสั่งที่ห้อง <#925559937323659274> เท่านั้น', mention_author=False)
-        else:
-
+        role = discord.utils.get(ctx.guild.roles, name="Admin")
+        if ctx.channel.id == 925559937323659274 or role in ctx.author.roles:
             check = member_check(ctx.author.id)
             if check == 1:
                 player = player_info(ctx.author.id)
@@ -154,6 +146,8 @@ class PlayerCommand(commands.Cog):
                 )
             else:
                 await ctx.reply('⚠ Error, your account ID not found!')
+        else:
+            await ctx.reply("กรุณาพิมพ์คำสั่งนี้ที่้ห้อง <#925559937323659274> เท่านั้น", mention_author=False)
         await ctx.message.delete()
 
     @bank_command.error
