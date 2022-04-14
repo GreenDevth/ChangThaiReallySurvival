@@ -163,7 +163,7 @@ class ServerDonation(commands.Cog):
     @commands.command(name='donate')
     async def donate_command(self, ctx):
         await ctx.send(
-            file=discord.File('./img/donate.png')
+            file=discord.File('./img/donate_t.png')
         )
         await ctx.send(
             "การสนับสนุนเซิร์ฟเป็นเพียงการช่วยเหลือค่าใช้จ่ายของเซิร์ฟ\n"
