@@ -46,11 +46,7 @@ class RegisterMember(commands.Cog):
         btn = interaction.component.custom_id
 
         if btn == 'new_player':
-            steam_id = steam_check(member.id)
-            if steam_id is not None:
-                await interaction.respond(
-                    content=f'คุณได้ลงทะเบียนไว้เรียบร้อยแล้ว สตรีมไอดีของคุณคือ **{steam_id}** ✔')
-            else:
+            if member_check(member.id) == 0:
                 await interaction.send(f'{member.mention} : 📝 โปรดระบุ SteamID ของคุณเพื่อดำเนินการลงทะเบียน')
                 while True:
                     try:
@@ -79,7 +75,8 @@ class RegisterMember(commands.Cog):
                                     colour=discord.Colour.green()
                                 )
                                 embed.set_image(
-                                    url="https://cdn.discordapp.com/attachments/894251225237848134/961097333876097034/unknown.png")
+                                    url="https://cdn.discordapp.com/attachments/894251225237848134/961097333876097034"
+                                        "/unknown.png")
                                 embed.add_field(name="ACTIVATE CODE", value=f"```\n{activatecode}\n```")
                                 await discord.DMChannel.send(
                                     member,
@@ -93,49 +90,54 @@ class RegisterMember(commands.Cog):
                     except asyncio.TimeoutError:
                         await interaction.send(f'{member.mention} : 📢 คุณใช้เวลาในการลงทะเบียนนานเกินไป '
                                                f'กรุณาลงทะเบียนใหม่อีกครั้ง', delete_after=5)
+            elif member_check(member.id) == 1:
+                steam_id = steam_check(member.id)
+                await interaction.respond(
+                    content=f'คุณได้ลงทะเบียนไว้เรียบร้อยแล้ว สตรีมไอดีของคุณคือ **{steam_id}**')
 
         if btn == 'activate_player':
-            steamd_id = member_check(member.id)
-            if steamd_id is not None:
-                check = verify_check(member.id)
-                if check != 0:
-                    await interaction.respond(
-                        file=discord.File('./img/verify.png')
-                    )
-                elif check == 0:
-                    await interaction.respond(
-                        content='กรุณากรอกรหัสที่ได้จากเซิร์ฟเวอร์'
-                    )
-
-                    msg = await self.bot.wait_for(
-                        'message',
-                        check=lambda r: r.author == interaction.author and r.channel == interaction.channel)
-                    check = activate_code_check(member.id)
-                    if msg.content == check:
-                        exclusive_channel = self.bot.get_channel(953622566105387048)
-                        result = activate_code(check)
-                        await exclusive_channel.send(
-                            f"📃 **Exclusive Member {member.mention}**\n"
-                            "```=====================================\n"
-                            f"Discord name : {member.display_name}\n"
-                            f"Discord id : {member.id}\n"
-                            f"Steam id : {steamd_id}\n"
-                            "Register status : ลงทะเบียนเรียบร้อย ✅\n"
-                            "=====================================\n```"
+            if member_check(member.id) == 1:
+                steamd_id = member_check(member.id)
+                if steamd_id is not None:
+                    check = verify_check(member.id)
+                    if check != 0:
+                        await interaction.respond(
+                            file=discord.File('./img/verify.png')
                         )
-                        await interaction.channel.send(f"{member.mention}\n{result}", delete_after=5)
-                        verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
-                        role = discord.utils.get(interaction.guild.roles, name='joiner')
-                        await member.add_roles(verify)
-                        await member.remove_roles(role)
-                        await discord.DMChannel.send(member, result)
-                        await msg.delete()
-                    else:
-                        await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง',
-                                                       delete_after=5)
-                        await msg.delete()
+                    elif check == 0:
+                        await interaction.respond(
+                            content='กรุณากรอกรหัสที่ได้จากเซิร์ฟเวอร์'
+                        )
 
-            else:
+                        msg = await self.bot.wait_for(
+                            'message',
+                            check=lambda r: r.author == interaction.author and r.channel == interaction.channel)
+                        check = activate_code_check(member.id)
+                        if msg.content == check:
+                            exclusive_channel = self.bot.get_channel(953622566105387048)
+                            result = activate_code(check)
+                            await exclusive_channel.send(
+                                f"📃 **Exclusive Member {member.mention}**\n"
+                                "```=====================================\n"
+                                f"Discord name : {member.display_name}\n"
+                                f"Discord id : {member.id}\n"
+                                f"Steam id : {steamd_id}\n"
+                                "Register status : ลงทะเบียนเรียบร้อย ✅\n"
+                                "=====================================\n```"
+                            )
+                            await interaction.channel.send(f"{member.mention}\n{result}", delete_after=5)
+                            verify = discord.utils.get(interaction.guild.roles, name='Verify Members')
+                            role = discord.utils.get(interaction.guild.roles, name='joiner')
+                            await member.add_roles(verify)
+                            await member.remove_roles(role)
+                            await discord.DMChannel.send(member, result)
+                            await msg.delete()
+                        else:
+                            await interaction.channel.send('รหัสปลดล๊อคไม่ถูกต้อง กรุณาดำเนินการใหม่อีกครั้ง',
+                                                           delete_after=5)
+                            await msg.delete()
+
+            elif member_check(member.id) == 0:
                 await interaction.respond(
                     content='ไม่พบข้อมูล Steam id ของคุณในระบบ'
                 )
